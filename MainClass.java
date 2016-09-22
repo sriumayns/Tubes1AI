@@ -106,6 +106,7 @@ public class MainClass {
 		
 		Schedule scheduleBoard = new Schedule(rooms[1]);
 		scheduleBoard.printSchedule();
+		System.out.println("test github");
 		
     }
 
