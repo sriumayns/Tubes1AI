@@ -98,16 +98,22 @@ public class MainClass {
 		
 		
 		//END OF READ FROM TXT
-		
 		//TEST YOUR ALGORITHM HERE
 		//LIST OF COURSES AVAILABLE ON courses array
 		//LIST OF ROOMS AVAILABLE ON rooms array
 		
+		System.out.println(roomNumber);
+		Schedule[] scheduleBoard = new Schedule[roomNumber];
 		
-		Schedule scheduleBoard = new Schedule(rooms[1]);
-		scheduleBoard.printSchedule();
-		System.out.println("test github");
+		for (int i=0; i < roomNumber; i++) {
+			scheduleBoard[i] = new Schedule(rooms[i]);
+		}
+		
+		for (int i=0; i < roomNumber; i++) {
+			scheduleBoard[i].printSchedule();
+		}
 		
     }
+    
 
 }

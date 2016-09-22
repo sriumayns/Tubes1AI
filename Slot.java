@@ -38,5 +38,47 @@ public class Slot{
 	public void lockSlot() {
 		isFillable = false;
 	}
+	public void insertCourse(Course course) {
+		if (numberOfCourse < 10) {
+			courseList[numberOfCourse] = course;
+			numberOfCourse++;
+		}
+		else {
+			System.out.println("Space Full");
+		}
+	}
+	
+	public Course getLastInsertedCourse() {
+		return courseList[numberOfCourse-1];
+	}
+	
+	public Course getCourseWithIndex(int i) {
+		if ((i <= numberOfCourse)&&(numberOfCourse > 0)) {
+			return courseList[i];
+		}
+		else {
+			System.out.println("Wrong index");
+			return null;
+		}
+	}
+	public Course getAndDeleteLastInsertedCourse() {
+		Course deletedCourse = courseList[numberOfCourse-1];
+		numberOfCourse--;
+		return deletedCourse;
+	}
+	
+	public Course getAndDeleteCourseWithIndex(int j) {
+		if ((j <= numberOfCourse)&&(numberOfCourse > 0)) {
+			Course deletedCourse = courseList[j];
+			for (int i = j; i < numberOfCourse-1; i++) {
+				courseList[j] = courseList[j+1];
+			}
+			return deletedCourse;
+		}
+		else {
+			System.out.println("Wrong index");
+			return null;
+		}
+	}
 
 }

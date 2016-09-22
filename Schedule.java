@@ -5,31 +5,56 @@ import java.io.*;
 import java.util.*;
 
 public class Schedule {
+	private Slot[][] slotTable;
+	//slotTable[Hari][Jam]
+	private Room room;
 
-	private String[][] courseTable = new String[6][12];
-
-	public Schedule() {
+	
+	public Schedule(Room roomInput) {
+		room = roomInput;
+		System.out.println("cek");
 		int i,j;
-		for (i = 0;i<12;i++) {
-			courseTable[i][0] = "xxx";
-		}
-		for (j = 0;j<6;j++) {
-			courseTable[0][j] = "xxx";
-		}
-
+		slotTable = new Slot[6][18];
 		for (i = 1; i<6; i++) {
-			for (j = 0; j<11; j++) {
-				courseTable[i][j] = "aaa";
+			for (j = 7; j<18; j++) {
+				slotTable[i][j] = new Slot();
+				if (room.isContainAvailableDay(i)) {
+					if ((j >= room.getStartHour())&&(j< room.getEndHour())) {
+						slotTable[i][j].openSlot();
+					}
+				}
+				else {
+					slotTable[i][j].lockSlot();
+				} 
 			}
 		}
 	}
-
-	public void setCourse(int day, int time, String inp) {
-		courseTable[day][time] = inp;
+	public void printSchedule() {
+		System.out.println(room.getRoomName());
+		System.out.println(room.getStartHour());
+		System.out.println(room.getEndHour());
+		System.out.println(room.getAvailableDay());
+		
+		for (int i =1; i < 6; i++) {
+			for (int j = 7; j < 18; j++) {
+				if (slotTable[i][j].isOpen()) {
+					System.out.print(1);
+				}
+				else {
+					System.out.print(0);
+				}
+			}
+			System.out.println();
+		}
 	}
-
-	public String getCourse(int day,int time) {
-		return courseTable[day][time];
+	
+	public void insertCourseToSchedule(int day, int time, Course course) {
+		slotTable[day][time].insertCourse(course);
+	}
+	
+	public void moveLastInsertedCourse(Room initialRoom, Room finalRoom, int initialDay, int finalDay, int initialHour, int finalHour) {
+		Course movedCourse = slotTable[initialDay][initialHour].getAndDeleteLastInsertedCourse();
+		slotTable[finalDay][finalHour].insertCourse(movedCourse);
 	}
 
 }
