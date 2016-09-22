@@ -7,7 +7,7 @@ public class SimAnState {
 	private int angka;
 
 	public SimAnState(){
-
+		System.out.println("a");
 	}
 
 	public int evaluate() {
