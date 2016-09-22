@@ -29,6 +29,11 @@ public class Schedule {
 			}
 		}
 	}
+	
+	public Room getRoom() {
+		return room;
+	}
+	
 	public void printSchedule() {
 		System.out.println(room.getRoomName());
 		System.out.println(room.getStartHour());
