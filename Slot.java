@@ -22,15 +22,7 @@ public class Slot{
 	}
 	public void setCourse(Course course, int index) {
 		courseList[index] = course;
-	}
-	public void setNumberOfCourse(int i) {
-		numberOfCourse = i;
-	}
-	public void addNumberOfCourse() {
 		numberOfCourse++;
-	}
-	public void substractNumberOfCourse() {
-		numberOfCourse--;
 	}
 	public void openSlot() {
 		isFillable = true;
@@ -73,6 +65,7 @@ public class Slot{
 			for (int i = j; i < numberOfCourse-1; i++) {
 				courseList[j] = courseList[j+1];
 			}
+			numberOfCourse--;
 			return deletedCourse;
 		}
 		else {

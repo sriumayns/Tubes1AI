@@ -109,5 +109,37 @@ public class Schedule {
 	public int getConflict(int day, int hour) {
 		return slotTable[day][hour].getNumberOfConflict();
 	}
+	
+	public int[] getConflictSlot() {
+		int day = 1;
+		int hour = 7;
+		boolean found = false;
+		int[] result = new int[2];
+		//result[0] = day
+		//result[1] = hour;
+		while ((day < 6)&&(!found)) {
+			hour = 7;
+			while ((hour < 18)&&(!found)) {
+				if (slotTable[day][hour].getNumberOfCourse() > 1) {
+					found = true;
+				}
+			hour++;
+			}
+		day++;
+		}
+		if ((day==6)&&(hour==18)) {
+			result[0] = 0;
+			result[1] = 0;
+		}
+		else {
+			result[0] = day-1;
+			result[1] = hour-1;
+		}
+		return result;
+	}
+	
+	public Course getAndDeleteLastInsertedCourseFromSLot(int day, int hour) {
+		return slotTable[day][hour].getAndDeleteLastInsertedCourse();
+	}
 
 }
