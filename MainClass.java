@@ -87,38 +87,7 @@ public class MainClass {
 			in.close();
 		}
 		
-	
-
-    public static void main(String[] args) {
-		
-		MainClass main = new MainClass();
-		try {
-			main.readTestCase();
-		}
-		catch(IOException e) {}
-		
-		
-		//END OF READ FROM TXT
-		//TEST YOUR ALGORITHM HERE
-		//LIST OF COURSES AVAILABLE ON courses array
-		//LIST OF ROOMS AVAILABLE ON rooms array
-		
-		System.out.println(roomNumber);
-		scheduleBoard = new Schedule[roomNumber];
-		
-		for (int i=0; i < roomNumber; i++) {
-			scheduleBoard[i] = new Schedule(rooms[i]);
-		}
-		
-		main.initializeSolutionRandomly();
-		
-		for (int i=0; i < roomNumber; i++) {
-			scheduleBoard[i].printSchedule();
-		}
-		
-    }
-    
-	public static int randInt(int min, int max) {
+		public static int randInt(int min, int max) {
 		Random rand = new Random();
 		int randomNum = rand.nextInt((max - min) + 1) + min;
 	
@@ -160,5 +129,48 @@ public class MainClass {
 			
 	}
     
+    public int countConflict() {
+		int totalConflict = 0;
+		for (int i=0; i< scheduleBoard.length; i++) {
+			for (int day = 1; day < 6; day++) {
+				for (int hour = 7; hour < 18; hour++) {
+					totalConflict += scheduleBoard[i].getConflict(day,hour);
+				}
+			}
+		}
+		return totalConflict;
+	}
+
+    public static void main(String[] args) {
+		
+		MainClass main = new MainClass();
+		try {
+			main.readTestCase();
+		}
+		catch(IOException e) {}
+		
+		
+		//END OF READ FROM TXT
+		//TEST YOUR ALGORITHM HERE
+		//LIST OF COURSES AVAILABLE ON courses array
+		//LIST OF ROOMS AVAILABLE ON rooms array
+		
+		System.out.println(roomNumber);
+		scheduleBoard = new Schedule[roomNumber];
+		
+		for (int i=0; i < roomNumber; i++) {
+			scheduleBoard[i] = new Schedule(rooms[i]);
+		}
+		
+		main.initializeSolutionRandomly();
+		
+		for (int i=0; i < roomNumber; i++) {
+			scheduleBoard[i].printSchedule();
+		}
+		System.out.println("Total Conflict: "+main.countConflict());
+		
+    }
+    
+
 
 }

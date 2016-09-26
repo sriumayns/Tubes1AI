@@ -80,5 +80,9 @@ public class Slot{
 			return null;
 		}
 	}
+	
+	public int getNumberOfConflict() {
+		return (numberOfCourse*(numberOfCourse-1))/2;
+	}
 
 }

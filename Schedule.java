@@ -105,5 +105,9 @@ public class Schedule {
 		}
 		System.out.println("---------------------------------------------------------------");
 	}
+	
+	public int getConflict(int day, int hour) {
+		return slotTable[day][hour].getNumberOfConflict();
+	}
 
 }
