@@ -110,6 +110,8 @@ public class MainClass {
 			scheduleBoard[i] = new Schedule(rooms[i]);
 		}
 		
+		main.initializeSolutionRandomly();
+		
 		for (int i=0; i < roomNumber; i++) {
 			scheduleBoard[i].printSchedule();
 		}
@@ -125,22 +127,33 @@ public class MainClass {
     
     public void initializeSolutionRandomly() {
 		for (int i =0; i < courseNumber; i++) {
-			int randomDay;
-			int randomHour;
+			int randomDay=0;
+			int randomHour=0;
 			int randomRoomIndex;
+			boolean slotLock = false;
 			String choosenRoomName;
-			if (courses[i].getRoomConstraint().equals("-")) {
-				randomRoomIndex = randInt(0,roomNumber-1);
-				choosenRoomName = rooms[randomRoomIndex].getRoomName();
-			}
-			else {
-				choosenRoomName = courses[i].getRoomConstraint();
-			}
-			randomDay = randInt(0,courses[i].getDayConstraint().length-1);
-			randomHour = randInt(courses[i].getStartHourConstraint(),courses[i].getEndHourConstraint()-1);
-			int j =0;
-			while (!scheduleBoard[j].getRoom().getRoomName().equals(choosenRoomName)) {
-				j++;
+			int randomDayIdx;
+			int[] availDay;
+			int j=0;
+			while (!slotLock) {
+				if (courses[i].getRoomConstraint().equals("-")) {
+					randomRoomIndex = randInt(0,roomNumber-1);
+					choosenRoomName = rooms[randomRoomIndex].getRoomName();
+				}
+				else {
+					choosenRoomName = courses[i].getRoomConstraint();
+				}
+				randomDayIdx = randInt(0,courses[i].getDayConstraint().length-1);
+				availDay = courses[i].getDayConstraint();
+				randomDay = availDay[randomDayIdx];
+				randomHour = randInt(courses[i].getStartHourConstraint(),courses[i].getEndHourConstraint()-1);
+				j =0;
+				while (!scheduleBoard[j].getRoom().getRoomName().equals(choosenRoomName)) {
+					j++;
+				}
+				if (scheduleBoard[j].isScheduleLocked(randomDay,randomHour)) {
+					slotLock = true;
+				}
 			}
 			scheduleBoard[j].insertCourseToSchedule(randomDay,randomHour,courses[i]);
 		}

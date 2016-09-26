@@ -12,7 +12,6 @@ public class Schedule {
 	
 	public Schedule(Room roomInput) {
 		room = roomInput;
-		System.out.println("cek");
 		int i,j;
 		slotTable = new Slot[6][18];
 		for (i = 1; i<6; i++) {
@@ -34,7 +33,11 @@ public class Schedule {
 		return room;
 	}
 	
-	public void printSchedule() {
+	public boolean isScheduleLocked(int day, int hour){
+		return slotTable[day][hour].isOpen();
+	}
+	
+	public void printScheduleLock() {
 		System.out.println(room.getRoomName());
 		System.out.println(room.getStartHour());
 		System.out.println(room.getEndHour());
@@ -60,6 +63,47 @@ public class Schedule {
 	public void moveLastInsertedCourse(Room initialRoom, Room finalRoom, int initialDay, int finalDay, int initialHour, int finalHour) {
 		Course movedCourse = slotTable[initialDay][initialHour].getAndDeleteLastInsertedCourse();
 		slotTable[finalDay][finalHour].insertCourse(movedCourse);
+	}
+	
+	public void printSchedule() {
+		System.out.println("===============================================================");
+		System.out.println("             Room Name: "+room.getRoomName());
+		System.out.println("             Start Hour: "+room.getStartHour()+"   End Hour: "+room.getEndHour());
+		System.out.print("             Available Day: ");
+		int dayAvailable[] = room.getAvailableDay();
+		for (int j =0; j < dayAvailable.length; j++) {
+			System.out.print(dayAvailable[j]+" ");
+		}
+		System.out.println();
+		System.out.println("===============================================================");
+		System.out.println("  |   Monday  |   Tuesday | Wednesday |  Thursday |   Friday  |");
+		System.out.println("===============================================================");
+		for (int hour = 7; hour<18; hour++) {
+			if (hour < 10) {
+				System.out.print(hour+" |");
+			}
+			else {
+				System.out.print(hour+"|");
+			}
+			for (int day = 1; day <6;day++) {
+				if (slotTable[day][hour].getNumberOfCourse() > 0) {
+					for (int i=0; i< slotTable[day][hour].getNumberOfCourse() ; i++) {
+						System.out.print(slotTable[day][hour].getCourseWithIndex(i).getCourseName());
+					}
+					if (slotTable[day][hour].getNumberOfCourse() == 1) {
+						System.out.print("     |");
+					}
+					else {
+						System.out.print("|");
+					}
+				}
+				else {
+					System.out.print("           |");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("---------------------------------------------------------------");
 	}
 
 }
