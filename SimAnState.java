@@ -4,16 +4,13 @@ import java.lang.Math;
 
 public class SimAnState {
 
-	private int numSchedules;
 	private int temperature;
-	private Schedule[] Schedules = new Schedule[100];
+	private Schedule[] Schedules;
 
 	public SimAnState(Schedule[] input){
-		
-		numSchedules = input.length;
+		Schedules = new Schedule[input.length];
 		Schedules = input;
 		temperature = 100;
-		
 	}
 	
 	public int getTemperature() {
@@ -25,16 +22,18 @@ public class SimAnState {
 	}
 	
 	public int evaluate() {
-		int cons = 0;
-		for (int i = 0; i < numSchedules; i++){
-			//cons += Schedules[i].countConflicts();
-		} 
-		
-		return cons;
+		int totalConflict = 0;
+		for (int i=0; i< Schedules.length; i++) {
+			for (int day = 1; day < 6; day++) {
+				for (int hour = 7; hour < 18; hour++) {
+					totalConflict += Schedules[i].getConflict(day,hour);
+				}
+			}
+		}
+		return totalConflict; 
 	}
 	
 	public Schedule[] getSchedules() {
 		return Schedules;
-		
 	}
 }
