@@ -12,7 +12,7 @@ public class SimAnState {
 		
 		numSchedules = input.length;
 		Schedules = input;
-		temperature = 999;
+		temperature = 100;
 		
 	}
 	

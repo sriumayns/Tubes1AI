@@ -13,11 +13,7 @@ public class SimAnSolver {
 		
 	}
 
-	
-
-
 	public double prob(SimAnState curr, SimAnState succ) {
-
 		double ex = Math.exp((succ.evaluate()-curr.evaluate())/curr.getTemperature());
 		
 		return ex;
