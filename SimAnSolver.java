@@ -20,7 +20,7 @@ public class SimAnSolver {
 	}
 	
 	public SimAnState findSuccessor(SimAnState current) {
-		course = scheduleBoard[scheduleIdx-1].getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
+		/*course = scheduleBoard[scheduleIdx-1].getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
 				//
 		int randomRoomIndex;
 		String choosenRoomName;
@@ -53,16 +53,18 @@ public class SimAnSolver {
 		if ((randomDay !=0)&&(randomHour !=0)) {
 			scheduleBoard[newRoomIdx].insertCourseToSchedule(randomDay,randomHour,course);
 		}
-
+		*/
 		current.setTemperature(current.getTemperature()-10);
 		return current;
 	}
 	
+	//Simulated Annealing Algorithm
 	public SimAnState solve(SimAnState init) {
 		SimAnState curr = new SimAnState(init.getSchedules());
 		SimAnState succ = new SimAnState(init.getSchedules());
 		boolean solved = false;
-		int evalDiff;
+		int evalDiff = 0;
+		int probab = 0;
 			
 		while (!solved) {
 			if (curr.getTemperature() == 0) {
@@ -75,7 +77,14 @@ public class SimAnSolver {
 					curr = succ;
 				}
 				else {
-					if (prob(curr,succ)>0) {curr = succ;}
+					//making random number between 0.0 ~ 1.0
+					//for comparison of probability
+					Random rand = new Random();
+					float randomProbab = rand.nextFloat() * (1.0f - 0.0f) + 0.0f;
+
+					if (prob(curr,succ)>randomProbab) {
+						curr = succ;
+					}
 				}
 			}
 		}
