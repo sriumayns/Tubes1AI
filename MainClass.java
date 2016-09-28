@@ -51,7 +51,9 @@ public class MainClass {
 			String line;
 			while((line = in.readLine()) != null)
 			{
-				if (line.equals("Ruangan")) {
+				if(line.equals("")){
+
+				}else if (line.equals("Ruangan")) {
 					readRoomActive = true;
 					readCourseActive = false;
 				}
