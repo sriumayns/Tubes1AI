@@ -21,6 +21,9 @@ public class Schedule {
 					if ((j >= room.getStartHour())&&(j< room.getEndHour())) {
 						slotTable[i][j].openSlot();
 					}
+					else {
+						slotTable[i][j].lockSlot();
+					}
 				}
 				else {
 					slotTable[i][j].lockSlot();
