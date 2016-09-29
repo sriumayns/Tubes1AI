@@ -13,6 +13,26 @@ public class ScheduleBoard{
 		}
 		initializeSolutionRandomly();
 	}
+	
+	public int getScheduleBoardLength() {
+		return scheduleBoard.length;
+	}
+	
+	public Schedule[] getAllSchedule() {
+		return scheduleBoard;
+	}
+	
+	public void setAllSchedule(Schedule[] schedule) {
+		scheduleBoard = schedule;
+	}
+	
+	public Schedule getScheduleWithIndex(int idx) {
+		return scheduleBoard[idx];
+	}
+	
+	public void setScheduleWithIndex(int idx, Schedule schedule) {
+		scheduleBoard[idx] = schedule;
+	}
 
 	public Course getEmptyCourse() {
 		return emptyCourse;
