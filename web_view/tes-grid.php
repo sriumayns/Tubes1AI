@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/my.css">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/my.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-   <?php
+	 <?php
 
     function f_create_table($data){
       $result = '';
@@ -113,71 +113,71 @@
   ?>
 
 
-    <!-- HTML Section -->
-  <style type="text/css"></style>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="crazy">
-          <span class="x">Schedule</span><span class="y">Generator</span>
-        </div>
-      </div>
-      <div class="col-sm-6" style="text-align: right;">
-        <table class="statistic">
-          <tr>
-            <td colspan="3" style="text-align: left;">
-              STATISTICS
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <hr style="margin: 2px 0;" />
-            </td>
-          </tr>
-          <tr>
-            <td style="text-align: left;">
-              conflicts: 0
-            </td>
-            <td style="text-align: left;">
-              &nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-            <td style="text-align: left;">
-              accuracy: 0%
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-3 text-center setal">
-        <div class="algorithm">
-          ALGORITHM
-        </div>
-        <div class="choose">
-          <input type="radio" name="algo" value="Hill_climbing" />Hill-climbing<br/>
-          <input type="radio" name="algo" value="Simulated_Annealing" />Simulated Annealing<br/>
-          <input type="radio" name="algo" value="Genetic_Algorithm" />Genetic Algorithm<br/>
-          <input type="text" placeholder="File schedule" class="fs" />
-        </div>
-        <button type="button" class="btn btn-primary btn-lg pull-right generate">Generate</button>
-        <div class="help-about">
-          <div>
-            Help
-          </div>
-          <div>
-            About
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-9">
+  	<!-- HTML Section -->
+	<style type="text/css"></style>
+	<div class="container-fluid">
+	  <div class="row">
+	    <div class="col-sm-6">
+	    	<div class="crazy">
+	    		<span class="x">Schedule</span><span class="y">Generator</span>
+	    	</div>
+	    </div>
+	    <div class="col-sm-6" style="text-align: right;">
+	    	<table class="statistic">
+	    		<tr>
+	    			<td colspan="3" style="text-align: left;">
+	    				STATISTICS
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td colspan="3">
+	    				<hr style="margin: 2px 0;" />
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td style="text-align: left;">
+	    				conflicts: 0
+	    			</td>
+	    			<td style="text-align: left;">
+	    				&nbsp;&nbsp;&nbsp;&nbsp;
+	    			</td>
+	    			<td style="text-align: left;">
+	    				accuracy: 0%
+	    			</td>
+	    		</tr>
+	    	</table>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="col-sm-3 text-center setal">
+	    	<div class="algorithm">
+	    		ALGORITHM
+	    	</div>
+	    	<div class="choose">
+	    		<input type="radio" name="algo" value="Hill_climbing" />Hill-climbing<br/>
+	    		<input type="radio" name="algo" value="Simulated_Annealing" />Simulated Annealing<br/>
+	    		<input type="radio" name="algo" value="Genetic_Algorithm" />Genetic Algorithm<br/>
+	    		<input type="text" placeholder="File schedule" class="fs" />
+	    	</div>
+    		<button type="button" class="btn btn-primary btn-lg pull-right generate">Generate</button>
+    		<div class="help-about">
+    			<div>
+    				Help
+    			</div>
+    			<div>
+    				About
+    			</div>
+    		</div>
+	    </div>
+	    <div class="col-sm-9">
 
-        <!-- Main Tab Nav -->
-        <?php echo $nav_tab_html; ?>
+		    <!-- Main Tab Nav -->
+		    <?php echo $nav_tab_html; ?>
 
-        <!-- Main Tab Content -->
-        <?php echo $content_tab_html; ?>
-      </div>
-    </div>
-  </div>
+		    <!-- Main Tab Content -->
+		    <?php echo $content_tab_html; ?>
+	    </div>
+	  </div>
+	</div>
 </body>
 </html>
