@@ -4,9 +4,13 @@ import java.util.Random;
 public class FileReaderMachine{
 	private static Room[] rooms = new Room[100];
 	private static Course[] courses = new Course[100];
+	private static Schedule[] schedules = new Schedule[100];
 	private static int roomSize = 0;
 	private static int courseSize = 0;
 
+	/*
+		Memindahkan isi testCase ke dalam array
+	*/
 	public static void readTestCase() throws IOException {
 		//READ FROM TXT
 		int roomIdx = 0;
@@ -34,17 +38,18 @@ public class FileReaderMachine{
 					readRoom.setStartHour(lineParsed[1]);
 					readRoom.setEndHour(lineParsed[2]);
 					readRoom.setAvailableDay(lineParsed[3]);
+					schedules[roomSize] = new Schedule(readRoom);
 					rooms[roomSize] = readRoom;
 					roomSize++;
 				}
 				if (readCourseActive && (lineParsed[1] != null)) {
 					Course readCourse = new Course();
 					readCourse.setCourseName(lineParsed[0]);
-					readCourse.setRoomConstraint(lineParsed[1]);
 					readCourse.setStartHourConstraint(lineParsed[2]);
 					readCourse.setEndHourConstraint(lineParsed[3]);
 					readCourse.setTotalCredit(lineParsed[4]);
 					readCourse.setDayConstraint(lineParsed[5]);
+					readCourse.setRoomConstraint(lineParsed[1]);
 					courses[courseSize] = readCourse;
 					courseSize++;
 				}
@@ -55,21 +60,77 @@ public class FileReaderMachine{
 		
 	
 
-
+	/*
+		Mengmbalikan jumlah room
+	*/
 	public static int getRoomSize(){
 		return roomSize;
 	}
 
+	/*
+		Mengembalikan jumlah course
+	*/
 	public static int getCourseSize(){
 		return courseSize;
 	}
 
+	/*
+		Mengembalikan Room berdasarkan index
+	*/
 	public static Room getRoomAtIdx(int idx){
 		return rooms[idx];
 	}
 
+	/*
+		Mengembalikan Schedule berdasarkan index
+	*/
+	public static Schedule getScheduleAtIdx(int idx){
+		return schedules[idx];
+	}
+
+	/*
+		Mengembalikan Schedule berdasarkan nama room
+	*/
+	public static Schedule getScheduleByRoomName(String roomName){
+		boolean found = false;
+		Schedule schedule = null;
+		int i = 0;
+		while((!found) && (i < roomSize)){
+			if(schedules[i].getRoom().getRoomName().equals(roomName)){
+				schedule = schedules[i];
+				found = true;
+			}
+			i++;
+		}
+
+		return schedule;
+	}
+
+
+	/*
+		Mengembalikan course berdasrkan index
+	*/	
 	public static Course getCourseAtIdx(int idx){
 		return courses[idx];
-	}	
+	}
+
+	/*
+		Mengembalikan room yang berdasarkan nama.
+		Prekondisi: nama Room pasti ada
+	*/
+	public static Room getRoomByName(String roomName){
+		boolean found = false;
+		Room room = null;
+		int i = 0;
+		while((!found) && (i < roomSize)){
+			if(rooms[i].getRoomName().equals(roomName)){
+				room = rooms[i];
+				found = true;
+			}
+			i++;
+		}
+
+		return room;
+	}
 
 }

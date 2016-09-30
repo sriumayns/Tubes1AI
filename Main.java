@@ -12,9 +12,9 @@ public class Main{
 
 		ScheduleBoard scheduleBoard = new ScheduleBoard();
 		ScheduleBoard scheduleBoard1 = new ScheduleBoard();
-		scheduleBoard.printScheduleBoard();
-		scheduleBoard1.printScheduleBoard();
+		//scheduleBoard.printScheduleBoard();
+		//scheduleBoard1.printScheduleBoard();
 		System.out.println(FileReaderMachine.getRoomAtIdx(0).getRoomName());
-		System.out.println("Lala!");
+		//System.out.println("Lala!");
 	}
 }

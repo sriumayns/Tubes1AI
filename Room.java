@@ -104,6 +104,10 @@ public class Room {
 			endHour = 17;
 		}
 	}
+
+	/*
+		
+	*/
 	public void setAvailableDay(String availableDayInputString)  {
 		String[] availableDayParsed = availableDayInputString.split(",");
 		availableDay = new int[availableDayParsed.length] ;
@@ -111,6 +115,10 @@ public class Room {
 			availableDay[i] = Integer.parseInt(availableDayParsed[i]);
 		}
 	}
+
+	/*
+		Mengecek apakah room ini bisa diisi pada hari tertentu (1-5)
+	*/
 	public boolean isContainAvailableDay(int n) {
 		int i =0;
 		while ((i< availableDay.length)&&(availableDay[i] != n)) {
