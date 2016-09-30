@@ -1,0 +1,121 @@
+body{
+	background-color: #A5D6A7;
+}
+
+.red{
+	background-color: #ddd;
+}
+
+table{
+	background-color: rgba(255, 255, 255, .9) !important;
+}
+
+table tr, table td, table th{
+	border: solid 2px #A5D6A7 !important;
+}
+
+.nav{
+	/*border: solid 1px rgba(0, 0, 0, .3) !important;*/
+	/*padding-bottom: 1px;*/
+	border-bottom: solid 1px  rgba(255, 255, 255, .9) !important;
+}
+
+.nav-tabs{
+	/*border: none;*/
+}
+
+.nav-tabs li{
+	border: none !important;
+	margin-bottom: 0px;
+	background-color: #C8E6C9;
+}
+
+.nav-tabs li a{
+	padding: 10px 50px;
+	margin-right: 0;
+	border: none !important;
+	border-radius: unset !important;
+}
+.nav-tabs li.active a{
+	background-color:  rgba(255, 255, 255, .9) !important;
+}
+
+.setal{
+	/*height: 80vh;*/
+	/*margin: 10px;*/
+	padding: 0 50px;
+	/*background-color: rgba(0, 0, 0, .5) !important;*/
+}
+
+.algorithm{
+	color:  rgba(255, 255, 255, .9);
+	display: inline-block;
+	font-size: 40px;
+	border-bottom: solid 1px  rgba(255, 255, 255, .9);
+	padding-bottom: 20px;
+}
+.choose{
+	text-align: left;
+	font-size: 20px;
+	color:  rgba(0, 0, 0, .6);
+}
+
+.choose input{
+	margin-top: 15px;
+	margin-right: 10px;
+}
+
+.choose .fs{
+	width: 100%;
+	border: none;
+	padding: 5px;
+	font-size: 20px;
+	text-indent: 10px;
+}
+
+.generate{
+	border: none;
+	border-radius: unset;
+	margin-top: 10px;
+	background-color: #37474F;
+	padding: 8px;
+	font-size: 20px;
+}
+
+.help-about{
+	text-align: left;
+	margin-top: 25vh;
+	padding-bottom: 10px;
+	color:  rgba(255, 255, 255, .9);
+	font-size: 20px;
+	border-bottom: solid 1px rgba(255, 255, 255, .9);
+}
+
+.crazy{
+	display: inline-block;
+	padding: 10px 0;
+	font-size: 40px;
+	/*background-color: rgba(0, 0, 0, .5);*/
+	margin: 30px;
+}
+
+.statistic{
+	display: inline-block;
+	margin: 30px;
+	color:  rgba(255, 255, 255, .9);
+	background-color: unset !important;
+	font-size: 20px;
+}
+
+.crazy .x{
+	padding: 10px;
+	background-color: #37474F;
+	color: rgba(255, 255, 255, .9);
+	border: solid 2px #37474F;
+}
+
+.crazy .y{
+	padding: 10px;
+	border: solid 2px #37474F;
+	color: #37474F;
+}
