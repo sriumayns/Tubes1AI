@@ -4,7 +4,7 @@ import java.util.Random;
 public class FileReaderMachine{
 	private static Room[] rooms = new Room[100];
 	private static Course[] courses = new Course[100];
-	private static Schedule[] schedules = new Schedule[100];
+	private static Schedule[] schedules = new Schedule[10];
 	private static int roomSize = 0;
 	private static int courseSize = 0;
 
@@ -50,12 +50,15 @@ public class FileReaderMachine{
 					readCourse.setTotalCredit(lineParsed[4]);
 					readCourse.setDayConstraint(lineParsed[5]);
 					readCourse.setRoomConstraint(lineParsed[1]);
+					readCourse.setId(courseSize+1);
 					courses[courseSize] = readCourse;
 					courseSize++;
 				}
 			}
 		}
 		in.close();
+		
+		sortingCourse();
 	}
 		
 	
@@ -131,6 +134,26 @@ public class FileReaderMachine{
 		}
 
 		return room;
+	}
+
+	/*
+		Sorting course berdasarkan dari yang paling terconstraint
+	*/
+	private static void sortingCourse(){
+		boolean sorted = false;
+
+		while(!sorted){
+			sorted = true;
+			for (int i = 0;i < courseSize - 1;i++ ) {
+				if(courses[i].getNSlotAvaliable() > courses[i+1].getNSlotAvaliable()){
+					Course temp = courses[i];
+					courses[i] = courses[i+1];
+					courses[i+1] = temp;
+					sorted = false;
+				}
+
+			}
+		}
 	}
 
 }

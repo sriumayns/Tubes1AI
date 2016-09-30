@@ -28,6 +28,7 @@ public class Schedule {
 				else {
 					slotTable[i][j].lockSlot();
 				} 
+				
 			}
 		}
 	}
@@ -75,8 +76,11 @@ public class Schedule {
 	/*
 		Digunakan untuk menambahkan course ke slot
 	*/
-	public void insertCourseToSchedule(int day, int time, Course course) {
-		slotTable[day][time].insertCourse(course);
+	public void insertCourseToSchedule(int day, int timeStart, Course course) {
+		for(int i = 0;i < course.getTotalCredit();i++){
+			slotTable[day][timeStart + i].insertCourse(course);	
+		}
+		
 	}
 	
 	/*	

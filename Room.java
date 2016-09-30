@@ -4,6 +4,9 @@ public class Room {
 	private int endHour;
 	private int[] availableDay;
 	
+	/*
+		Constructor
+	*/
 	public Room() {
 		roomName = "EMPTY";
 		startHour = 0;
@@ -11,6 +14,9 @@ public class Room {
 		availableDay = new int[] {0};
 	}
 	
+	/*
+		Constructor
+	*/
 	public Room(String roomNameInput,int startHourInput,int endHourInput, int[] availableDayInput) {
 		roomName = roomNameInput;
 		startHour = startHourInput;
@@ -18,22 +24,44 @@ public class Room {
 		availableDay = availableDayInput;
 	}
 	
+	/*
+		Mengembalikan nama room
+	*/
 	public String getRoomName() {
 		return roomName;
 	}
+
+	/*
+		Mengembalikan Start Hour
+	*/
 	public int getStartHour() {
 		return startHour;
 	}
+
+	/*
+		Mengembalikan end hour
+	*/
 	public int getEndHour() {
 		return endHour;
 	}
+
+	/*
+		Mengembalikan hari yang dapat diisi
+	*/
 	public int[] getAvailableDay()  {
 		return availableDay;
 	}
 	
+	/*
+		Mengganti nama room
+	*/
 	public void setRoomName(String roomNameInput) {
 		roomName = roomNameInput;
 	}
+
+	/*
+		Merubah start hour
+	*/
 	public void setStartHour(String startHourString) {
 		if (startHourString.equals("07.00")) {
 			startHour = 7;
@@ -69,6 +97,10 @@ public class Room {
 			startHour = 17;
 		}
 	}
+
+	/*
+		Merubah End Hour
+	*/
 	public void setEndHour(String endHourString) {
 		if (endHourString.equals("07.00")) {
 			endHour = 7;
@@ -106,7 +138,7 @@ public class Room {
 	}
 
 	/*
-		
+		Merubah hari apa saja yang bisa diisi
 	*/
 	public void setAvailableDay(String availableDayInputString)  {
 		String[] availableDayParsed = availableDayInputString.split(",");

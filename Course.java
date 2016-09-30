@@ -6,6 +6,7 @@ public class Course {
 	private int totalCredit;
 	private int[] dayConstraint;
 	private int nSlotAvaliable;
+	private int id;
 	
 	/*
 		Constructor
@@ -18,12 +19,13 @@ public class Course {
 		totalCredit = 0;
 		dayConstraint = new int[] {0};
 		nSlotAvaliable = 0;
+		id = 0;
 	}
 	
 	/*
 		Constructor
 	*/
-	public Course(String courseNameInput, String roomConstraintInput, int startHourConstraintInput,int endHourConstraintInput, int totalCreditInput, int[] dayConstraintInput) {
+	public Course(String courseNameInput, String roomConstraintInput, int startHourConstraintInput,int endHourConstraintInput, int totalCreditInput, int[] dayConstraintInput, int idInput) {
 		courseName = courseNameInput;
 		roomConstraint = roomConstraintInput;
 		startHourConstraint = startHourConstraintInput;
@@ -31,10 +33,17 @@ public class Course {
 		totalCredit = totalCreditInput;
 		dayConstraint = dayConstraintInput;
 		nSlotAvaliable = 0;
+		id = idInput;
 	}
 	
 	/*
-		Mengembalika nama course
+		Mengembalikan id course
+	*/
+	public int getId(){
+		return id;
+	}
+	/*
+		Mengembalikan nama course
 	*/
 	public String getCourseName() {
 		return courseName;
@@ -82,6 +91,10 @@ public class Course {
 		return nSlotAvaliable;
 	}
 	
+	public void setId(int idInput){
+		id = idInput;
+	}
+
 	/*
 		Merubah nama course
 	*/
@@ -95,7 +108,7 @@ public class Course {
 	public void setRoomConstraint(String roomConstraintInput) {
 		roomConstraint = roomConstraintInput;
 		int i = 0;
-		if(roomConstraintInput == "-"){
+		if(roomConstraintInput.equals("-")){
 			while(i < FileReaderMachine.getRoomSize()){
 				countAvaliableInRoom(FileReaderMachine.getRoomAtIdx(i));
 				i++;
@@ -112,18 +125,20 @@ public class Course {
 		int i = 0;
 		int j = 0;
 		int[] roomDayConstraint = room.getAvailableDay();
+		Schedule schedule = FileReaderMachine.getScheduleByRoomName(room.getRoomName());
 		while((i < roomDayConstraint.length) && (j < dayConstraint.length)){
 			if(roomDayConstraint[i] > dayConstraint[j]){
 				j++;
 			}else if(roomDayConstraint[i] < dayConstraint[j]){
 				i++;
 			}else{
-				Schedule schedule = FileReaderMachine.getScheduleByRoomName(room.getRoomName());
 				for(int k = startHourConstraint;k <= endHourConstraint - totalCredit + 1;k++){
-					if(schedule.isScheduleOpen(i,k)){
+					if(schedule.isScheduleOpen(roomDayConstraint[i],k)){
 						nSlotAvaliable++;
 					}
 				}
+				i++;
+				j++;
 			}
 		}
 	}

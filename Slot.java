@@ -10,6 +10,7 @@ public class Slot{
 		}
 		numberOfCourse = 0;
 		isFillable = false;
+		
 	}
 	
 	/*
