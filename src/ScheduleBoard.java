@@ -159,4 +159,91 @@ public class ScheduleBoard{
 		
 		return randomNum;
 	}
+
+	/*
+		Untuk mencari lokasi konflik maksimal pada seluruh board. 
+		Mengembalikan indeks schedule dan koordinat slot yang memiliki konflik terbanyak dan tidak terkunci. 
+		output:
+		int [0] = hari(1-5)
+		int [1] = jam(7-17)
+		int [2] = schedule(1-n)
+
+		jika tidak ditemukan maka hasilnya: 
+		int[0] = 0;
+		int[1] = 0; 
+		int[2] = 0;
+	*/
+
+	public int[] getMaxConflictLocation() {
+		int currentDay = 0;
+		int currentHour = 0;
+		int currentSchedule = 0;
+		int currentConflict = 0;
+		int[] result_temp;
+		int[] result = new int[3];
+		for(int i=0; i < scheduleBoard.length; i++) {
+			result_temp = scheduleBoard[i].getMaxConflictLocation();
+			if((result_temp[0]!=0)&&(result_temp[1]!=0)) {
+				if(currentConflict < scheduleBoard[i].getConflict(result_temp[0],result_temp[1])) {
+					currentConflict = scheduleBoard[i].getConflict(result_temp[0],result_temp[1]);
+					currentDay = result_temp[0];
+					currentHour = result_temp[1];
+					currentSchedule = i;
+				}
+			}
+		}
+		if (currentConflict == 0) {
+			result[0] = 0;
+			result[1] = 0;
+			result[2] = 0;
+		}
+		else {
+			result[0] = currentDay;
+			result[1] = currentHour;
+			result[2] = currentSchedule;
+		}
+		return result;
+	}
+	/*
+		Untuk mencara runtutan slot sebanyak total kredit yang memiliki jumlah konflik yang paling sedikit.
+		Serta koordinat slot tidak terkunci. 
+		output:
+		int [0] = hari(1-5)
+		int [1] = jam(7-17)
+		int [2] = jumlah konflik
+
+		jika tidak ditemukan maka hasilnya: 
+		int[0] = 0;
+		int[1] = 0; 
+		int[2] = 0;
+	*/
+	public int[] searchBestLocation(int totalCredit) {
+		int currentConflict = 10000;
+		int currentDay = 0;
+		int currentStartHour = 0;
+		int currentSchedule = 0;
+		int[] result_temp;
+		for (int i =0; i < scheduleBoard.lenght; i++) {
+			result_temp =  scheduleBoard[i].searchBestSlot(totalCredit);
+			if ((result_temp[0]!=0)&&(result_temp[1]!=0)&&(result_temp[2]!=0)) {
+				if(result_temp[2] < currentConflict) {
+					currentConflict = result_temp[2];
+					currentDay =  result_temp[0];
+					currentStartHour = result_temp[1];
+					currentSchedule = i;
+				}
+			}
+		}
+		if (currentConflict == 10000) {
+			result[0] = 0;
+			result[1] = 0;
+			result[2] = 0;
+		}
+		else {
+			result[0] = currentDay;
+			result[1] = currentStartHour;
+			result[2] = currentSchedule;
+		}
+		return result;
+	}
 }

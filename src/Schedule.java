@@ -82,6 +82,14 @@ public class Schedule {
 		}
 		
 	}
+
+	/*
+	
+	*/
+	public Course getCourseById(int day, int hour,int id) {
+		return slotTable[day][hour].getCourseById(id);
+	}
+
 	
 	/*	
 	public void moveLastInsertedCourse(Room initialRoom, Room finalRoom, int initialDay, int finalDay, int initialHour, int finalHour) {
@@ -144,7 +152,7 @@ public class Schedule {
 	/*
 		Untuk mencari konflik yang ada dalam ruangan itu yang pertama didapat. Searching dilakukan dari jam dulu.
 		output:
-		int [0] = hari(1-7)
+		int [0] = hari(1-5)
 		int [1] = jam(7-17)
 
 		jika tidak ditemukan maka hasilnya: 
@@ -178,7 +186,105 @@ public class Schedule {
 		}
 		return result;
 	}
-	
+	/*
+		Untuk mencari konflik yang ada dalam ruangan itu dan mengembalikan koordinat slot yang memiliki konflik terbanyak.
+		Serta koordinat slot tidak terkunci. 
+		output:
+		int [0] = hari(1-5)
+		int [1] = jam(7-17)
+
+		jika tidak ditemukan maka hasilnya: 
+		int[0] = 0;
+		int[1] = 0; 
+	*/
+
+
+	public int[] getMaxConflictSlot() {
+		int[] result = new int[2];
+		int currentDay = 0;
+		int currentHour = 0;
+		int currentConflict =0;
+		int[] result = new int[2];
+		for (int day = 1; day < 6; day++) {
+			for(int hour=7; hour < 18; hour++) {
+				if ((currentConflict < slotTable[day][hour].getNumberOfCourse())&&(slotTable[day][hour].isOpen())) {
+					currentConflict = slotTable[day][hour].getNumberOfCourse();
+					currentDay = day;
+					currentHour = hour;
+				}
+
+			}
+		}
+		if ((currentDay == 0)&&(currentHour==0)){
+			result[0] = 0;
+			result[1] = 0;
+		}
+		else {
+			result[0] = currentDay;
+			result[1] = currentHour;
+		}
+
+		return result;
+
+	}
+	/*
+		Untuk mencara runtutan slot sebanyak total kredit yang memiliki jumlah konflik yang paling sedikit.
+		Serta koordinat slot tidak terkunci. 
+		output:
+		int [0] = hari(1-5)
+		int [1] = jam(7-17)
+		int [2] = jumlah konflik
+
+		jika tidak ditemukan maka hasilnya: 
+		int[0] = 0;
+		int[1] = 0; 
+		int[2] = 0;
+	*/
+
+
+
+	public int[] searchBestSlot(int totalCredit) {
+		int currentDay = 0;
+		int currentStartHour = 0;
+		int currentFreeIndex = 10000;
+		boolean isOpen;
+		int countConflict;
+		int[] result = new int[3];
+		for (int day = 1; day < 6; day++) {
+			for(int hour =7; hour < 18-totalCredit+1; hour++) {
+				countConflict = 0;
+				isOpen = true;
+				for(int i = hour; i < hour+totalCredit; i++) {
+					if (!slotTable[day][i].isOpen()) {
+						isOpen = false;
+					}
+					countConflict += slotTable[day][i].getNumberOfConflict();
+				}
+				if ((isOpen)&&(countConflict < currentFreeIndex)) {
+					currentFreeIndex = countConflict;
+					currentStartHour = hour;
+					currentDay = day;
+					
+				}
+			}
+		}
+		if (currentFreeIndex == 9000) {
+			result[0] = 0;
+			result[1] = 0;
+			result[2] = 0;
+		}
+		else {
+			result[0] = currentDay;
+			result[1] = currentStartHour;
+			result[2] = currentFreeIndex;
+		}
+		return result;
+
+	}
+
+	/*
+		Untuk mengambil course dari slot dan menghapus course tersebut pada slot
+	*/
 	public Course getAndDeleteLastInsertedCourseFromSLot(int day, int hour) {
 		return slotTable[day][hour].getAndDeleteLastInsertedCourse();
 	}

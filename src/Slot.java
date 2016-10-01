@@ -20,6 +20,31 @@ public class Slot{
 		return courseList[index];
 	}
 
+
+	/*
+	public Course getCourseById(int id) {
+		int i = 0;
+		boolean found = false;
+		while ((i < numberOfCourse)&&(!found)) {
+			if (courseList[i].getId() == id) {
+				found = true;
+			}
+
+			i++;
+		}
+
+		if (i < numberOfCourse) {
+			return courseList[i-1];
+		}
+		else {
+			Course emptyCourse = new Course();
+			return emptyCourse;
+		}
+
+	}
+	*/
+	
+
 	/*
 		Mengembalikan jumlah Course
 	*/

@@ -9,12 +9,10 @@ public class Main{
 
 		}
 		
+		ScheduleBoard board = new ScheduleBoard();
+		board.printScheduleBoard();
 
-		for (int i = 0;i < FileReaderMachine.getCourseSize();i++) {
-			Course course = FileReaderMachine.getCourseAtIdx(i);
-			System.out.println(course.getId());
-			System.out.println(course.getCourseName());
-			System.out.println(course.getNSlotAvaliable());
-		}
+		
+		
 	}
 }
