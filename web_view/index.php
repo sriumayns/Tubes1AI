@@ -11,24 +11,25 @@
 </head>
 <body>
    <?php
+    require('./interpreter.php');
 
     function f_create_table($data){
       $result = '';
       $result .= '<table class="table table-bordered">';
       $result .= '  <thead>';
       $result .= '    <tr>';
-      $result .= '      <th>Jam</th>';
-      $result .= '      <th>Senin</th>';
-      $result .= '      <th>Selasa</th>';
-      $result .= '      <th>Rabu</th>';
-      $result .= '      <th>Kamis</th>';
-      $result .= '      <th>Jumat</th>';
+      $result .= '      <th class="thead" style="text-align: center; width: 100px;">Jam</th>';
+      $result .= '      <th class="thead">Senin</th>';
+      $result .= '      <th class="thead">Selasa</th>';
+      $result .= '      <th class="thead">Rabu</th>';
+      $result .= '      <th class="thead">Kamis</th>';
+      $result .= '      <th class="thead">Jumat</th>';
       $result .= '    </tr>';
       $result .= '  </thead>';
       $result .= '  <tbody>';
       for($i = 7; $i <= 17; $i++){
         $result .= '    <tr>';
-        $result .= '      <td>' . $i . '</td>';
+        $result .= '      <td class="thead" style="text-align: center; font-weight: bold;">' . ($i < 10 ? '0' : '') . $i . '.00</td>';
 
         for($j = 1; $j <= 5; $j++){
           $temp = '';
@@ -154,7 +155,7 @@
           ALGORITHM
         </div>
         <div class="choose">
-          <input type="radio" name="algo" value="Hill_climbing" />Hill-climbing<br/>
+          <input type="radio" name="algo" value="Hill_climbing" checked="checked" />Hill-climbing<br/>
           <input type="radio" name="algo" value="Simulated_Annealing" />Simulated Annealing<br/>
           <input type="radio" name="algo" value="Genetic_Algorithm" />Genetic Algorithm<br/>
           <input type="text" placeholder="File schedule" class="fs" />

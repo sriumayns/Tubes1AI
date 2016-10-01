@@ -1,5 +1,11 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url("../fonts/GeosansLight.ttf");
+}
+
 body{
-	background-color: #A5D6A7;
+	background-color: #95C797;
+	font-family: myFirstFont !important;
 }
 
 .red{
@@ -7,17 +13,22 @@ body{
 }
 
 table{
-	background-color: rgba(255, 255, 255, .9) !important;
+	background-color: rgba(255, 255, 255, .95) !important;
 }
 
 table tr, table td, table th{
-	border: solid 2px #A5D6A7 !important;
+	border: solid 2px #95C797 !important;
+	font-size: 20px;
+}
+
+.thead{
+	background-color: #A5E7A7 !important;
 }
 
 .nav{
 	/*border: solid 1px rgba(0, 0, 0, .3) !important;*/
 	/*padding-bottom: 1px;*/
-	border-bottom: solid 1px  rgba(255, 255, 255, .9) !important;
+	border-bottom: solid 1px  rgba(255, 255, 255, .95) !important;
 }
 
 .nav-tabs{
@@ -31,13 +42,14 @@ table tr, table td, table th{
 }
 
 .nav-tabs li a{
-	padding: 10px 50px;
+	font-size: 25px;
+	padding: 5px 50px;
 	margin-right: 0;
 	border: none !important;
 	border-radius: unset !important;
 }
 .nav-tabs li.active a{
-	background-color:  rgba(255, 255, 255, .9) !important;
+	background-color:  rgba(255, 255, 255, .95) !important;
 }
 
 .setal{
@@ -48,11 +60,13 @@ table tr, table td, table th{
 }
 
 .algorithm{
-	color:  rgba(255, 255, 255, .9);
+	color:  rgba(255, 255, 255, .95);
 	display: inline-block;
-	font-size: 40px;
-	border-bottom: solid 1px  rgba(255, 255, 255, .9);
-	padding-bottom: 20px;
+	font-size: 45px;
+	border-bottom: solid 1px  rgba(255, 255, 255, .95);
+	padding-bottom: 5px;
+	overflow: hidden;
+	margin: 0;
 }
 .choose{
 	text-align: left;
@@ -86,9 +100,9 @@ table tr, table td, table th{
 	text-align: left;
 	margin-top: 25vh;
 	padding-bottom: 10px;
-	color:  rgba(255, 255, 255, .9);
+	color:  rgba(255, 255, 255, .95);
 	font-size: 20px;
-	border-bottom: solid 1px rgba(255, 255, 255, .9);
+	border-bottom: solid 1px rgba(255, 255, 255, .95);
 }
 
 .crazy{
@@ -102,7 +116,7 @@ table tr, table td, table th{
 .statistic{
 	display: inline-block;
 	margin: 30px;
-	color:  rgba(255, 255, 255, .9);
+	color:  rgba(255, 255, 255, .95);
 	background-color: unset !important;
 	font-size: 20px;
 }
@@ -110,7 +124,7 @@ table tr, table td, table th{
 .crazy .x{
 	padding: 10px;
 	background-color: #37474F;
-	color: rgba(255, 255, 255, .9);
+	color: rgba(255, 255, 255, .95);
 	border: solid 2px #37474F;
 }
 
