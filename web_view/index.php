@@ -31,14 +31,14 @@
         $result .= '    <tr>';
         $result .= '      <td class="thead" style="text-align: center; font-weight: bold;">' . ($i < 10 ? '0' : '') . $i . '.00</td>';
 
-        for($j = 1; $j <= 5; $j++){
+        for($j = 0; $j <= 4; $j++){
           $temp = '';
-          if(isset($data['jadwal'][$j][$i])){
-            foreach ($data['jadwal'][$j][$i] as $k => $v) {
+          if(isset($data->jadwal[$j][$i])){
+            foreach ($data->jadwal[$j][$i] as $k => $v) {
               $temp .= $v . '<br/>';
             }
           }
-          $result .= '      <td class='. (in_array($j, $data['available']) && ($i >= $data['hour']['start']) && ($i <= $data['hour']['end']) ? '' : 'red') . '>' . $temp . '</td>';
+          $result .= '      <td class='. ($data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end) ? '' : 'red') . '>' . $temp . '</td>';
         }
 
         $result .= '   </tr>';
@@ -49,51 +49,11 @@
       return $result;
     }
 
+    $datayy = json_decode(javaOutput());
+    // print_r($datayy);
     $full_data = array(
-      array(
-        'nama_ruangan' => '7602',
-        'hour' => array(
-          'start' => 7,
-          'end' => 14
-        ),
-        'available' => array(1, 3, 5),
-        'jadwal' => array(
-          '1' => array(
-            '7' => array('IF1234'),
-            '8' => array('IF1234'),
-            '9' => array('IF1234'),
-            '10' => array('IF1234', 'IF3104')
-          ),
-          '3' => array(),
-          '5' => array()
-        )
-      ),
-      array(
-        'nama_ruangan' => '7603',
-        'hour' => array(
-          'start' => 7,
-          'end' => 13
-        ),
-        'available' => array(2, 4, 5),
-        'jadwal' => array(
-          '2' => array(),
-          '4' => array(),
-          '5' => array()
-        )
-      ),
-      array(
-        'nama_ruangan' => 'Labdas II Informatika',
-        'hour' => array(
-          'start' => 7,
-          'end' => 13
-        ),
-        'available' => array(2, 4, 5),
-        'jadwal' => array(
-          '2' => array(),
-          '4' => array(),
-          '5' => array()
-        )
-      )
+      $datayy,
+      $datayy
     );
 
     $nav_tab_html = '<ul class="nav nav-tabs">';
@@ -102,7 +62,7 @@
     $i = 0;
     foreach ($full_data as $key => $value) {
       $nav_tab_html .= '<li ' . ($i == 0 ? 'class="active"' : '') .
-                       '><a data-toggle="tab" href="#id_' . $key . '">' . $value['nama_ruangan'] . '</a></li>';
+                       '><a data-toggle="tab" href="#id_' . $key . '">' . $value->nama_ruangan . '</a></li>';
       $content_tab_html .= '<div id="id_' . $key . '" class="tab-pane fade' . ($i == 0 ? ' in active' : '') . '">';
       $content_tab_html .= f_create_table($value);
       $content_tab_html .= '</div>';
@@ -165,6 +125,7 @@
           <div>
             Help
           </div>
+          
           <div>
             About
           </div>
