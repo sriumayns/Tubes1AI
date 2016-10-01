@@ -6,6 +6,9 @@ public class ScheduleBoard{
 	private Slot emptySlot = new Slot();
 	private Schedule[] scheduleBoard;
 	
+	/*
+		Constructor
+	*/
 	public ScheduleBoard(){
 		scheduleBoard = new Schedule[FileReaderMachine.getRoomSize()];	
 		for (int i=0; i < FileReaderMachine.getRoomSize(); i++) {
@@ -14,22 +17,37 @@ public class ScheduleBoard{
 		initializeSolutionRandomly();
 	}
 	
+	/*
+		Mengembalikan banyaknya Schedule dalam Schedule board
+	*/
 	public int getScheduleBoardLength() {
 		return scheduleBoard.length;
 	}
 	
+	/*
+		Mendapatkan semua schedule dalam schedule board
+	*/
 	public Schedule[] getAllSchedule() {
 		return scheduleBoard;
 	}
 	
+	/*
+		Merubah seluruh schedule board
+	*/
 	public void setAllSchedule(Schedule[] schedule) {
 		scheduleBoard = schedule;
 	}
 	
+	/*
+		Mengembalikan Schedule dengan index tertentu
+	*/
 	public Schedule getScheduleWithIndex(int idx) {
 		return scheduleBoard[idx];
 	}
 	
+	/*
+		Merubah schedule dengan index tertentu
+	*/
 	public void setScheduleWithIndex(int idx, Schedule schedule) {
 		scheduleBoard[idx] = schedule;
 	}
@@ -38,12 +56,18 @@ public class ScheduleBoard{
 		return emptyCourse;
 	}
 	
+	/*
+		Print Schedule Board
+	*/
 	public void printScheduleBoard() {
 		for (int i=0; i < FileReaderMachine.getRoomSize(); i++) {
 			scheduleBoard[i].printSchedule();
 		}
 	}
 
+	/*
+		Print Room
+	*/
 	public void printRooms(Room[] rooms) {
 		System.out.println("Ruangan");
 		for (int i=0; i<FileReaderMachine.getRoomSize(); i++) {
@@ -56,6 +80,9 @@ public class ScheduleBoard{
 		}
 	}
 	
+	/*
+		Print Course
+	*/
 	public void printCourses(Course[] courses) {
 		System.out.println("Jadwal");
 		for (int i=0; i<FileReaderMachine.getCourseSize(); i++) {
@@ -68,19 +95,22 @@ public class ScheduleBoard{
 		}
 	}
 	
-	
-    
+	/*
+		Menginisialisasi dengan random variable
+    */
     public void initializeSolutionRandomly() {
 		for (int i =0; i < FileReaderMachine.getCourseSize(); i++) {
 			int randomDay=0;
 			int randomHour=0;
 			int randomRoomIndex;
-			boolean slotLock = false;
+			boolean slotLock = true;
 			String choosenRoomName;
 			int randomDayIdx;
 			int[] availDay;
 			int j=0;
-			while (!slotLock) {
+
+			// Meramdom Course sampai course mendapatkan ruangan yang tidak terconstraint
+			while (slotLock) {
 				if (FileReaderMachine.getCourseAtIdx(i).getRoomConstraint().equals("-")) {
 					randomRoomIndex = randInt(0,FileReaderMachine.getRoomSize()-1);
 					choosenRoomName = FileReaderMachine.getRoomAtIdx(randomRoomIndex).getRoomName();
@@ -96,8 +126,8 @@ public class ScheduleBoard{
 				while (!scheduleBoard[j].getRoom().getRoomName().equals(choosenRoomName)) {
 					j++;
 				}
-				if (scheduleBoard[j].isScheduleLocked(randomDay,randomHour)) {
-					slotLock = true;
+				if (scheduleBoard[j].isScheduleOpen(randomDay,randomHour)) {
+					slotLock = false;
 				}
 			}
 			scheduleBoard[j].insertCourseToSchedule(randomDay,randomHour,FileReaderMachine.getCourseAtIdx(i));
@@ -105,6 +135,9 @@ public class ScheduleBoard{
 			
 	}
     
+    /*
+		Menghitung jumlah confict
+    */
     public int countConflict() {
 		int totalConflict = 0;
 		for (int i=0; i< scheduleBoard.length; i++) {
@@ -117,6 +150,9 @@ public class ScheduleBoard{
 		return totalConflict;
 	}
 
+	/*
+		Mengembalikan bilangan random dari min sampai max
+	*/
 	public static int randInt(int min, int max) {
 		Random rand = new Random();
 		int randomNum = rand.nextInt((max - min) + 1) + min;

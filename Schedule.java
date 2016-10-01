@@ -28,18 +28,31 @@ public class Schedule {
 				else {
 					slotTable[i][j].lockSlot();
 				} 
+				
 			}
 		}
 	}
-	
+
+
+	/*
+		Untuk mendapatkan Room dari Schedule
+	*/
 	public Room getRoom() {
 		return room;
 	}
 	
-	public boolean isScheduleLocked(int day, int hour){
+	/*
+		Mengecek apakah slot bisa isi atau tidak, berdasarkan konstrain
+
+	*/
+	public boolean isScheduleOpen(int day, int hour){
 		return slotTable[day][hour].isOpen();
 	}
 	
+
+	/*
+		Untuk debuging lock Slot
+	*/
 	public void printScheduleLock() {
 		System.out.println(room.getRoomName());
 		System.out.println(room.getStartHour());
@@ -58,16 +71,27 @@ public class Schedule {
 			System.out.println();
 		}
 	}
-	
-	public void insertCourseToSchedule(int day, int time, Course course) {
-		slotTable[day][time].insertCourse(course);
+
+
+	/*
+		Digunakan untuk menambahkan course ke slot
+	*/
+	public void insertCourseToSchedule(int day, int timeStart, Course course) {
+		for(int i = 0;i < course.getTotalCredit();i++){
+			slotTable[day][timeStart + i].insertCourse(course);	
+		}
+		
 	}
 	
+	/*	
 	public void moveLastInsertedCourse(Room initialRoom, Room finalRoom, int initialDay, int finalDay, int initialHour, int finalHour) {
 		Course movedCourse = slotTable[initialDay][initialHour].getAndDeleteLastInsertedCourse();
 		slotTable[finalDay][finalHour].insertCourse(movedCourse);
-	}
+	}*/
 	
+	/*
+		Untuk mengeprint schedule satu ruangan
+	*/
 	public void printSchedule() {
 		System.out.println("===============================================================");
 		System.out.println("             Room Name: "+room.getRoomName());
@@ -109,10 +133,24 @@ public class Schedule {
 		System.out.println("---------------------------------------------------------------");
 	}
 	
+	/*
+		Untuk menghitung konflik dalam slot
+	*/
 	public int getConflict(int day, int hour) {
 		return slotTable[day][hour].getNumberOfConflict();
 	}
 	
+
+	/*
+		Untuk mencari konflik yang ada dalam ruangan itu yang pertama didapat. Searching dilakukan dari jam dulu.
+		output:
+		int [0] = hari(1-7)
+		int [1] = jam(7-17)
+
+		jika tidak ditemukan maka hasilnya: 
+		int[0] = 0;
+		int[1] = 0; 
+	*/
 	public int[] getConflictSlot() {
 		int day = 1;
 		int hour = 7;

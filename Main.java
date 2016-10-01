@@ -10,11 +10,11 @@ public class Main{
 		}
 		
 
-		ScheduleBoard scheduleBoard = new ScheduleBoard();
-		ScheduleBoard scheduleBoard1 = new ScheduleBoard();
-		scheduleBoard.printScheduleBoard();
-		scheduleBoard1.printScheduleBoard();
-		System.out.println(FileReaderMachine.getRoomAtIdx(0).getRoomName());
-		System.out.println("Lala!");
+		for (int i = 0;i < FileReaderMachine.getCourseSize();i++) {
+			Course course = FileReaderMachine.getCourseAtIdx(i);
+			System.out.println(course.getId());
+			System.out.println(course.getCourseName());
+			System.out.println(course.getNSlotAvaliable());
+		}
 	}
 }

@@ -44,7 +44,7 @@ public class HillClimbing {
 					while (!scheduleBoard[newRoomIdx].getRoom().getRoomName().equals(choosenRoomName)) {
 						newRoomIdx++;
 					}
-					if (scheduleBoard[newRoomIdx].isScheduleLocked(randomDay,randomHour)) {
+					if (scheduleBoard[newRoomIdx].isScheduleOpen(randomDay,randomHour)) {
 						slotLock = true;
 					}
 				}

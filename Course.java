@@ -5,7 +5,12 @@ public class Course {
 	private int endHourConstraint;
 	private int totalCredit;
 	private int[] dayConstraint;
+	private int nSlotAvaliable;
+	private int id;
 	
+	/*
+		Constructor
+	*/
 	public Course() {
 		courseName = "EMPTY";
 		roomConstraint = "EMPTY";
@@ -13,42 +18,134 @@ public class Course {
 		endHourConstraint = 0;
 		totalCredit = 0;
 		dayConstraint = new int[] {0};
+		nSlotAvaliable = 0;
+		id = 0;
 	}
 	
-	public Course(String courseNameInput, String roomConstraintInput, int startHourConstraintInput,int endHourConstraintInput, int totalCreditInput, int[] dayConstraintInput) {
+	/*
+		Constructor
+	*/
+	public Course(String courseNameInput, String roomConstraintInput, int startHourConstraintInput,int endHourConstraintInput, int totalCreditInput, int[] dayConstraintInput, int idInput) {
 		courseName = courseNameInput;
 		roomConstraint = roomConstraintInput;
 		startHourConstraint = startHourConstraintInput;
 		endHourConstraint = endHourConstraintInput;
 		totalCredit = totalCreditInput;
 		dayConstraint = dayConstraintInput;
+		nSlotAvaliable = 0;
+		id = idInput;
 	}
 	
+	/*
+		Mengembalikan id course
+	*/
+	public int getId(){
+		return id;
+	}
+	/*
+		Mengembalikan nama course
+	*/
 	public String getCourseName() {
 		return courseName;
 	}
+
+	/*
+		Mengembalikan nama room constraint. Jika tidak ada contraint maka mengembalikan "-".
+	*/
 	public String getRoomConstraint() {
 		return roomConstraint;
 	}
+
+	/*
+		Mengembalikan jam awal (7-17)
+	*/
 	public int getStartHourConstraint() {
 		return startHourConstraint;
 	}
+
+	/*
+		Mengembalikan jam ahir (7-17)
+	*/
 	public int getEndHourConstraint() {
 		return endHourConstraint;
 	}
+
+	/*
+		Mengembalikan jumlah sks
+	*/
 	public int getTotalCredit() {
 		return totalCredit;
 	}
+
+	/*
+		Mengembalikan hari yang bisa diisi
+	*/
 	public int[] getDayConstraint() {
 		return dayConstraint;
 	}
+
+	/*
+		Mengembalikan jumlah slot yang dapat diisi dalam satu schedule board
+	*/
+	public int getNSlotAvaliable() {
+		return nSlotAvaliable;
+	}
 	
+	public void setId(int idInput){
+		id = idInput;
+	}
+
+	/*
+		Merubah nama course
+	*/
 	public void setCourseName(String courseNameInput) {
 		courseName = courseNameInput;
 	}
+
+	/*
+		Merubah room constraint. Merubah '-' jika tidak ada constraint.
+	*/
 	public void setRoomConstraint(String roomConstraintInput) {
 		roomConstraint = roomConstraintInput;
+		int i = 0;
+		if(roomConstraintInput.equals("-")){
+			while(i < FileReaderMachine.getRoomSize()){
+				countAvaliableInRoom(FileReaderMachine.getRoomAtIdx(i));
+				i++;
+			}
+		}else{
+			countAvaliableInRoom(FileReaderMachine.getRoomByName(roomConstraintInput));
+		}
 	}
+
+	/*
+		Menghitung jumlah slot yang dapat diisi dalam satu slot.
+	*/
+	private void countAvaliableInRoom(Room room){
+		int i = 0;
+		int j = 0;
+		int[] roomDayConstraint = room.getAvailableDay();
+		Schedule schedule = FileReaderMachine.getScheduleByRoomName(room.getRoomName());
+		while((i < roomDayConstraint.length) && (j < dayConstraint.length)){
+			if(roomDayConstraint[i] > dayConstraint[j]){
+				j++;
+			}else if(roomDayConstraint[i] < dayConstraint[j]){
+				i++;
+			}else{
+				for(int k = startHourConstraint;k <= endHourConstraint - totalCredit + 1;k++){
+					if(schedule.isScheduleOpen(roomDayConstraint[i],k)){
+						nSlotAvaliable++;
+					}
+				}
+				i++;
+				j++;
+			}
+		}
+	}
+
+	/*
+		Merubah jam yang dapat dimulai.
+	*/
 	public void setStartHourConstraint(String startHourString) {
 		if (startHourString.equals("07.00")) {
 			startHourConstraint = 7;
@@ -84,6 +181,10 @@ public class Course {
 			startHourConstraint = 17;
 		}
 	}
+
+	/*
+		Merubah jam yang dapat diisi paling lama.
+	*/
 	public void setEndHourConstraint(String endHourString) {
 		if (endHourString.equals("07.00")) {
 			endHourConstraint = 7;
@@ -119,9 +220,17 @@ public class Course {
 			endHourConstraint = 17;
 		}
 	}
+
+	/*
+		Merubah sks.
+	*/
 	public void setTotalCredit(String totalCreditInput) {
 		totalCredit = Integer.parseInt(totalCreditInput);
 	}
+
+	/*
+		Merubah hari yang dapat digunakan. 
+	*/
 	public void setDayConstraint(String dayConstraintInput) {
 		String[] availableDayParsed = dayConstraintInput.split(",");
 		dayConstraint = new int[availableDayParsed.length] ;
