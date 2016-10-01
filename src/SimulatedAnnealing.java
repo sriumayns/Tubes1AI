@@ -12,26 +12,27 @@ public class SimulatedAnnealing {
 	/*
 		Simulated Annealing main algorithm
 	*/
-	public static void SimulatedAnnealing(ScheduleBoard init) {
+	public static void SimulatedAnnealing(ScheduleBoard inputState) {
 		int currTemperature;
 		int intialTemperature = 100;
 		int tempReduction = 1;
-		ScheduleBoard curr = new ScheduleBoard();
-		ScheduleBoard succ = new ScheduleBoard();
+		ScheduleBoard currState = new ScheduleBoard();
+		ScheduleBoard succState = new ScheduleBoard();
 		boolean stopLoop = false;
 		int evalDiff = 0;
 		int probab = 0;
 		
 		currTemperature = intialTemperature;
+		currState = inputState;
 		while (!stopLoop) {
 			if (currTemperature == 0) {
 				stopLoop = true;
 			}
 			else {
-				succ = findSuccessor(curr);
-				evalDiff = evaluate(succ) - evaluate(curr);
+				succState = findSuccessor(currState);
+				evalDiff = evaluate(succState) - evaluate(currState);
 				if (evalDiff>0) {
-					curr = succ;
+					currState = succState;
 				}
 				else {
 					//making random number between 0.0 ~ 1.0
@@ -39,18 +40,18 @@ public class SimulatedAnnealing {
 					float randomProbab = randFloat(0.0f,1.1f);
 
 					//counting Acceptance Probability Function
-					double prob = Math.exp((evaluate(curr)-evaluate(succ)) / currTemperature);
+					double prob = Math.exp((evaluate(currState)-evaluate(succState)) / currTemperature);
 					
 					//comparing both probability
 					if ((float) prob>randomProbab) {
-						curr = succ; 
+						currState = succState; 
 					}
 				}
 			}
 			currTemperature -= tempReduction; //decreasing currTemperature
 		}
 		
-
+		inputState = currState;
 	}
 	
 	/*
