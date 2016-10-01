@@ -4,7 +4,7 @@
 }
 
 body{
-	background-color: #95C797;
+	background-color: #79b791;
 	font-family: myFirstFont !important;
 }
 
@@ -17,8 +17,9 @@ table{
 }
 
 table tr, table td, table th{
-	border: solid 2px #95C797 !important;
+	border: solid 2px #79b791 !important;
 	font-size: 20px;
+	color: #466060;
 }
 
 .thead{
@@ -47,6 +48,7 @@ table tr, table td, table th{
 	margin-right: 0;
 	border: none !important;
 	border-radius: unset !important;
+	color: #466060;
 }
 .nav-tabs li.active a{
 	background-color:  rgba(255, 255, 255, .95) !important;
@@ -91,7 +93,7 @@ table tr, table td, table th{
 	border: none;
 	border-radius: unset;
 	margin-top: 10px;
-	background-color: #37474F;
+	background-color: #466060;
 	padding: 8px;
 	font-size: 20px;
 }
@@ -123,13 +125,13 @@ table tr, table td, table th{
 
 .crazy .x{
 	padding: 10px;
-	background-color: #37474F;
+	background-color: #466060;
 	color: rgba(255, 255, 255, .95);
-	border: solid 2px #37474F;
+	border: solid 2px #466060;
 }
 
 .crazy .y{
 	padding: 10px;
-	border: solid 2px #37474F;
-	color: #37474F;
+	border: solid 2px #466060;
+	color: #466060;
 }

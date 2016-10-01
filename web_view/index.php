@@ -33,11 +33,7 @@
 
         for($j = 0; $j <= 4; $j++){
           $temp = '';
-          if(isset($data->jadwal[$j][$i])){
-            foreach ($data->jadwal[$j][$i] as $k => $v) {
-              $temp .= $v . '<br/>';
-            }
-          }
+          $temp .= $data->jadwal[$j][$i] . '<br/>';
           $result .= '      <td class='. ($data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end) ? '' : 'red') . '>' . $temp . '</td>';
         }
 
@@ -51,10 +47,7 @@
 
     $datayy = json_decode(javaOutput());
     // print_r($datayy);
-    $full_data = array(
-      $datayy,
-      $datayy
-    );
+    $full_data = $datayy;
 
     $nav_tab_html = '<ul class="nav nav-tabs">';
     $content_tab_html = '<br/><div class="tab-content">';
