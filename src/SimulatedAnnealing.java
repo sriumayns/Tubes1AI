@@ -13,7 +13,8 @@ public class SimulatedAnnealing {
 		Simulated Annealing main algorithm
 	*/
 	public static void SimulatedAnnealing(ScheduleBoard init) {
-		int temperature = 100;
+		int currTemperature;
+		int intialTemperature = 100;
 		int tempReduction = 1;
 		ScheduleBoard curr = new ScheduleBoard();
 		ScheduleBoard succ = new ScheduleBoard();
@@ -21,8 +22,9 @@ public class SimulatedAnnealing {
 		int evalDiff = 0;
 		int probab = 0;
 		
+		currTemperature = intialTemperature;
 		while (!stopLoop) {
-			if (temperature == 0) {
+			if (currTemperature == 0) {
 				stopLoop = true;
 			}
 			else {
@@ -37,7 +39,7 @@ public class SimulatedAnnealing {
 					float randomProbab = randFloat(0.0f,1.1f);
 
 					//counting Acceptance Probability Function
-					double prob = Math.exp((evaluate(curr)-evaluate(succ)) / temperature);
+					double prob = Math.exp((evaluate(curr)-evaluate(succ)) / currTemperature);
 					
 					//comparing both probability
 					if ((float) prob>randomProbab) {
@@ -45,7 +47,7 @@ public class SimulatedAnnealing {
 					}
 				}
 			}
-			temperature -= tempReduction; //decreasing temperature
+			currTemperature -= tempReduction; //decreasing currTemperature
 		}
 		
 
