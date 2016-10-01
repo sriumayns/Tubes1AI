@@ -4,25 +4,26 @@
 import java.io.*;
 import java.util.*;
 import java.lang.Math;
-import Tubes1AI.ScheduleBoard.*;
 
 public class SimulatedAnnealing {
 	
 	
-	//Methods
+
+	/*
+		Simulated Annealing main algorithm
+	*/
 	public static void SimulatedAnnealing(ScheduleBoard init) {
 		int temperature = 100;
 		int tempReduction = 1;
 		ScheduleBoard curr = new ScheduleBoard();
 		ScheduleBoard succ = new ScheduleBoard();
-		boolean solved = false;
+		boolean stopLoop = false;
 		int evalDiff = 0;
 		int probab = 0;
 		
-		//Simulated Annealing Algorithm			
-		while (!solved) {
+		while (!stopLoop) {
 			if (temperature == 0) {
-				solved = true;
+				stopLoop = true;
 			}
 			else {
 				succ = findSuccessor(curr);
@@ -33,14 +34,14 @@ public class SimulatedAnnealing {
 				else {
 					//making random number between 0.0 ~ 1.0
 					//for comparison of probability
-					Random rand = new Random();
-					float randomProbab = rand.nextFloat() * (1.0f - 0.0f) + 0.0f;
+					float randomProbab = randFloat(0.0f,1.1f);
 
 					//counting Acceptance Probability Function
-					double prob = Math.exp((evaluate(succ)-evaluate(curr)) / temperature);
-		
-					if (prob>randomProbab) {
-						curr = succ;
+					double prob = Math.exp((evaluate(curr)-evaluate(succ)) / temperature);
+					
+					//comparing both probability
+					if ((float) prob>randomProbab) {
+						curr = succ; 
 					}
 				}
 			}
@@ -50,21 +51,29 @@ public class SimulatedAnnealing {
 
 	}
 	
+	/*
+		method for finding the successor of a state (SceduleBoard state)
+	*/
 	private static ScheduleBoard findSuccessor(ScheduleBoard currentSchedule) {
-		int[] searchResult = {0,0};
+		int[] searchResult = {0,0}; //pair of day and hour
 		boolean conflictFound = false;
 		int scheduleIdx = 0;
 		Course course;
-		while ((scheduleIdx < currentSchedule.length)&&(!conflictFound)) {
-			searchResult = currentSchedule[scheduleIdx].getConflictSlot();
+
+	/*	
+		//sequentially check if there's any conflict in each schedule
+		while ((scheduleIdx < currentSchedule.getScheduleBoardLength())&&(!conflictFound)) {
+			searchResult = currentSchedule.getScheduleWithIndex(scheduleIdx).getConflictSlot();
 			if ((searchResult[1] !=0)&&(searchResult[0]!=0)) {
 				conflictFound = true;
 			}
-		scheduleIdx++;
+			scheduleIdx++;
 		}
+
+		//if any conflict found, try to relocate
 		if (conflictFound) {
-			course = currentSchedule[scheduleIdx-1].getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
-			//
+			course = currentSchedule.getScheduleWithIndex(scheduleIdx-1).getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
+
 			int randomRoomIndex;
 			String choosenRoomName;
 			int randomDayIdx;
@@ -98,13 +107,37 @@ public class SimulatedAnnealing {
 			}
 			
 		}
+		*/
 		return currentSchedule;
 	}
+
+	/*
+		Generating random integer value
+	*/	
+	public static int randInt(int min, int max) {
+		Random rand = new Random();
+		int randomNum = rand.nextInt((max - min) + 1) + min;
+
+		return randomNum;
+	}	
+
+	/*
+		Generating random float value
+	*/	
+	public static float randFloat(float min, float max) {
+		Random rand = new Random();
+		float randomFloat = rand.nextFloat() * (max - min) + min;
+
+		return randomFloat;
+	}
 	
-	
-	private static int evaluate(ScheduleBoard s) {	
+	/*
+		counting the evaluation value of a state of ScheduleBoard
+	*/
+	public static int evaluate(ScheduleBoard s) {	
 		return s.countConflict(); 
 	}
+
 
 
 }
