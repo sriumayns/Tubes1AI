@@ -2,64 +2,44 @@
 
 public class HillClimbing {
 	
-	public static void hillClimbing(ScheduleBoard scheduleboard) {
-		int totalSteps = 10;
-		int[] searchResult = {0,0};
-		int step = 0;
-		boolean conflictFound = false;
-		int scheduleIdx = 0;
+	public static void hillClimbing(ScheduleBoard scheduleBoard) {
+		int maxStep = 10;
+		int startStep = 0;
+		int currentConflict = scheduleBoard.currentConflict();
+
+		int scheduleIdx;
+		int day;
+		int hour;
+		int selectedDay;
+		int selectedHour;
+		int selectedScheduleIdx;
 		Course course;
-		while ((scheduleboard.countConflict() > 0)&&(step < totalSteps)) {
-			while ((scheduleIdx < scheduleBoard.length)&&(!conflictFound)) {
-				searchResult = scheduleBoard[scheduleIdx].getConflictSlot();
-				if ((searchResult[1] !=0)&&(searchResult[0]!=0)) {
-					conflictFound = true;
-				}
-			scheduleIdx++;
+		int courseId;
+		int[] temp_result;
+
+		while ((currentConflict > 0)&&(startStep < maxStep)) {
+			temp_result = scheduleBoard.getMaxConflictLocation();
+			day = temp_result[0];
+			hour = temp_result[1];
+			scheduleIdx = temp_result[2];
+
+			courseId = scheduleBoard.getLastInsertedCourseId(scheduleIdx,day.hour);
+			course = scheduleBoard.getAndDeleteCourseById(courseId,scheduleIdx,day,hour);
+			temp_result = scheduleBoard.searchBestLocation(course.getTotalCredit());
+
+			selectedDay = temp_result[0];
+			selectedHour = temp_result[1];
+			selectedScheduleIdx = temp_result[2];
+
+			scheduleBoard.insertCourse(course,selectedScheduleIdx,selectedDay,selectedHour);
+
+			if (scheduleBoard.countConflict() >= currentConflict) {
+				startStep++;
 			}
-			if (conflictFound) {
-				course = scheduleBoard[scheduleIdx-1].getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
-				//
-				int randomRoomIndex;
-				String choosenRoomName;
-				int randomDayIdx;
-				int[] availDay;
-				int randomDay=0;
-				int randomHour=0;
-				boolean slotLock = false;
-				int newRoomIdx = 0;
-				while (!slotLock) {
-					if (course.getRoomConstraint().equals("-")) {
-						randomRoomIndex = randInt(0,roomNumber-1);
-						choosenRoomName = rooms[randomRoomIndex].getRoomName();
-					}
-					else {
-						choosenRoomName = course.getRoomConstraint();
-					}
-					randomDayIdx = randInt(0,course.getDayConstraint().length-1);
-					availDay = course.getDayConstraint();
-					randomDay = availDay[randomDayIdx];
-					randomHour = randInt(course.getStartHourConstraint(),course.getEndHourConstraint()-1);
-					newRoomIdx =0;
-					while (!scheduleBoard[newRoomIdx].getRoom().getRoomName().equals(choosenRoomName)) {
-						newRoomIdx++;
-					}
-					if (scheduleBoard[newRoomIdx].isScheduleOpen(randomDay,randomHour)) {
-						slotLock = true;
-					}
-				}
-				if ((randomDay !=0)&&(randomHour !=0)) {
-					scheduleBoard[newRoomIdx].insertCourseToSchedule(randomDay,randomHour,course);
-				}
-				//
+			else {
+				startStep = 0;
 			}
-		
-		step++;
-		conflictFound = false;
-		scheduleIdx = 0;
+
 		}
-		
-	}
-	
-	
+	} 
 }

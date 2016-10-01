@@ -240,9 +240,6 @@ public class Schedule {
 		int[1] = 0; 
 		int[2] = 0;
 	*/
-
-
-
 	public int[] searchBestSlot(int totalCredit) {
 		int currentDay = 0;
 		int currentStartHour = 0;
@@ -287,6 +284,27 @@ public class Schedule {
 	*/
 	public Course getAndDeleteLastInsertedCourseFromSLot(int day, int hour) {
 		return slotTable[day][hour].getAndDeleteLastInsertedCourse();
+	}
+	/*
+		Mengembalikan id dari course
+	*/
+	public int getLastInsertedCourseId(int day, int hour) {
+		return slotTable[day][hour].getLastInsertedCourseId();
+	}
+	/*
+		Mengambil dan mengapus course berdasarkan courseId pada day dan hour yang diberikan, kemudian membersihkan course
+		serupa (memiliki id yang sama) di sekitar course tersebut.
+	*/
+	public Course getAndDeleteCourseById(int courseId, int day, int hour) {
+		Course course = slotTable[day][hour].getAndDeletCourseById(courseId);
+		Course cleanCourse;
+		for (int i = hour; ((i < 18)&&(i < hour + course.getTotalCredit()-1));i++) {
+			cleanCourse = slotTable[day][i].getAndDeletCourseById(courseId);
+		}
+		for (int j = hour; ((j > 6)&&(j > hour - course.getTotalCredit()+1));j--) {
+			cleanCourse = slotTable[day][j].getAndDeletCourseById(courseId);
+		}
+		return course;
 	}
 
 }

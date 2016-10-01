@@ -4,8 +4,8 @@ public class Slot{
 	private boolean isFillable;
 	
 	public Slot() {
-		courseList = new Course[10];
-		for (int i=0; i<10; i++) {
+		courseList = new Course[20];
+		for (int i=0; i<20; i++) {
 			courseList[i] = new Course();
 		}
 		numberOfCourse = 0;
@@ -85,7 +85,7 @@ public class Slot{
 		Menginsertkan Course pada ahir index
 	*/
 	public void insertCourse(Course course) {
-		if (numberOfCourse < 10) {
+		if (numberOfCourse < 20) {
 			courseList[numberOfCourse] = course;
 			numberOfCourse++;
 		}
@@ -93,6 +93,7 @@ public class Slot{
 			System.out.println("Space Full");
 		}
 	}
+
 	
 	/*
 		Mengembalikan Course pada index slot yang terahir
@@ -140,13 +141,44 @@ public class Slot{
 			return null;
 		}
 	}
-
-
 	/*
 		Mengembalikan konflik dalam satu slot
 	*/
 	public int getNumberOfConflict() {
 		return (numberOfCourse*(numberOfCourse-1))/2;
+	}
+	/*
+		Mengembalikan id dari course
+	*/
+	public int getLastInsertedCourseId() {
+		return courseList[numberOfCourse-1].getId();
+	}
+	/*
+		Mengambil dan menghampus course dari slot berdasarkan id
+	*/
+	public Course getAndDeleteCourseById(int courseId) {
+		int i = 0;
+		boolean found = false;
+		while ((i < numberOfCourse)&&(!found)) {
+			if (courseList[i].getId() == courseId) {
+				found = true;
+			}
+			else {
+				i++;
+			}
+		}
+		Course course;
+		if (i == numberOfCourse) {
+			course = new Course();
+			return course;
+		}
+		else {
+			course = courseList[i];
+		}
+		for (int j = i; j < numberOfCourse - 1; j++) {
+			courseList[j] = courseList[j+1];
+		}
+		return course;
 	}
 
 }

@@ -209,7 +209,7 @@ public class ScheduleBoard{
 		Serta koordinat slot tidak terkunci. 
 		output:
 		int [0] = hari(1-5)
-		int [1] = jam(7-17)
+		int [1] = jam(7-17), merupakan jam terbaik untuk memulai course
 		int [2] = jumlah konflik
 
 		jika tidak ditemukan maka hasilnya: 
@@ -245,5 +245,24 @@ public class ScheduleBoard{
 			result[2] = currentSchedule;
 		}
 		return result;
+	}
+	/*
+		Menambahkan course ke schedule berdasarkan indeks schedule, hari dan jam mulai.
+	*/
+	public void insertCourse(Course course, int scheduleIdx, int day, int startHour) {
+		scheduleBoard[scheduleIdx].insertCourseToSchedule(day,startHour,course);
+	}
+	/*
+		Mengembalikan id dari course
+	*/
+	public int getLastInsertedCourseId(int scheduleIdx, int day, int hour) {
+		return scheduleBoard[scheduleIdx].getLastInsertedCourseId(day,hour);
+	}
+	/*
+		Mengambil dan mengapus course berdasarkan courseId pada day dan hour yang diberikan, kemudian membersihkan course
+		serupa (memiliki id yang sama) di sekitar course tersebut.
+	*/
+	public Course getAndDeleteCourseById(int courseId, int scheduleIdx, int day, int hour) {
+		return scheduleBoard[scheduleIdx].getAndDeleteCourseById(courseId,day,hour);
 	}
 }

@@ -11,6 +11,12 @@ public class Main{
 		
 		ScheduleBoard board = new ScheduleBoard();
 		board.printScheduleBoard();
+		System.out.println("Total Conflict: "+board.countConflict());
+		System.out.println("==================================================================================================");
+		HillClimbing.hillClimbing(board);
+		board.printScheduleBoard();
+		System.out.println("Total Conflict: "+board.countConflict());
+
 
 		
 		
