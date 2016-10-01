@@ -2,12 +2,29 @@ import java.util.*;
 
 class Interpreter{
 	public static class BeRoom{
+
+		// Strict data untuk debugging
 		private Boolean strict;
+
+		// nama ruangan
 		private String namaRuangan;
+
+		// jam buka dan tutup kelas
 		private int startHour, endHour;
+
+		// array ketersedaan kelas pada hari senin sampai jumat
 		private ArrayList<Boolean> availableDay = new ArrayList<Boolean>(5);
+
+		// jadwal penggunaan ruangan berupa list dua dimensi [hari][jam]
 		private ArrayList<ArrayList<String>> jadwal = new ArrayList<ArrayList<String>>(5);
 
+		// Konstruktor
+		// parameter awal "st" singkatan dari strict
+		// jika false maka data yang salah akan tetap dimasukkan kedalam output
+		// misalnya, jika available day adalah senin, rabu, kamis
+		// ketika terdapat kelas pada hari jumat, kelas tersebut akan tercetak pada keluaran
+		// sebaliknya jika true maka data tersebut akan diabaikan karena berada diluar
+		// keadaan yang diinginkan
 		public BeRoom(Boolean st){
 			strict = st;
 			for(int i = 0; i < 5; i++){
@@ -18,15 +35,21 @@ class Interpreter{
 			}
 		}
 
+		// Mengeset nama ruangan (kelas ini)
 		public void setNamaRuangan(String str){
 			namaRuangan = str;
 		}
 
+		// Jam tersedia kelas mulai buka hingga tutup
+		// sementara jam buka kelas harus kontinu, 
+		// tidak boleh terpisah seperti jam 07.00 - 11.00, 13.00 - 15.00
 		public void setStartEndHour(int a, int b){
 			startHour = a;
 			endHour = b;
 		}
 
+		// Hari ketersediaan kelas dibuka
+		// a: Senin, b: Selasa, dst sampai Jumat
 		public void setAvailableDay(boolean a, boolean b, boolean c, boolean d, boolean e){
 			availableDay.add(0, a);
 			availableDay.add(1, b);
@@ -35,6 +58,10 @@ class Interpreter{
 			availableDay.add(4, e);
 		}
 
+		// Menambah jadwal kelas pada hari ke-"index" dan jam ke-"jam" dengan
+		// nilai "alVal"
+		// Atribut strict (jika true) akan melakukan validasi penambahan data jika terdapat
+		// ketidaksesuaian hari dan jam
 		public void addJadwal(int index, int jam, String alVal){
 			if((0 <= index && index <= 4) || !strict)
 				if(availableDay.get(index) || !strict)
@@ -47,27 +74,36 @@ class Interpreter{
 						}
 		}
 
-
+		// Mengembalikan nama ruangan
 		public String getNamaRuangan(){
 			return namaRuangan;
 		}
 
+		// Mengembalikan jam kelas dibuka
 		public int getStartHour(){
 			return startHour;
 		}
 
+		// Mengembalikan jam kelas ditutup
 		public int getEndHour(){
 			return endHour;
 		}
 
+		// Mengebalikan array ketersediaan kelas dibuka
+		// dalam array boolean (member = 5)
 		public ArrayList<Boolean> getAvailableDay(){
 			return availableDay;
 		}
 
+		// Mengembalikan list jadwal yang tersedia pada hari ke-i
+		// berupa array list string
 		public ArrayList<String> getJadwal(int i){
 			return jadwal.get(i);
 		}
 
+		// Hampir sama dengan getJadwal(i), bedanya metode ini
+		// mengembalikan string JSON array dari jadwal pada
+		// hari ke-i mulai jam 7 hingga jam 17
 		public String printJadwal(int k){
 			String output = "";
 			output += "[";
@@ -82,22 +118,9 @@ class Interpreter{
 			return output;
 		}
 
-		// keluaran di cetak dalam bentuk JSON String
+		// Seluruh atribut kelas di cetak dalam bentuk JSON String
+		// sesuai dengan kebutuhan pada interpreter PHP
 		public String getOutput(){
-
-		      // array(
-		      //   'nama_ruangan' => 'Labdas II Informatika',
-		      //   'hour' => array(
-		      //     'start' => 7,
-		      //     'end' => 13
-		      //   ),
-		      //   'available' => array(2, 4, 5),
-		      //   'jadwal' => array(
-		      //     '2' => array(),
-		      //     '4' => array(),
-		      //     '5' => array()
-		      //   )
-		      // )
 			String output = "";
 			output += "{";
 			output += "\"nama_ruangan\": \"" + getNamaRuangan() + "\",";
@@ -124,19 +147,28 @@ class Interpreter{
 	}
 
 	public static class MasterRoom{
+		// list room
 		private ArrayList<BeRoom> arrRoom;
+
+		// Konstruktor
+		// melakukan inisialisasi array list
+		// jumlah ruangan yang digunakan bisa berapa saja
 		public MasterRoom(){
 			arrRoom = new ArrayList<BeRoom>();
 		}
 
+		// menambahkan ruangan baru
 		public void addRoom(BeRoom br){
 			arrRoom.add(br);
 		}
 
+		// mengembalikan ruangan pada indeks ke-"index"
 		public BeRoom getRoom(int index){
 			return arrRoom.get(index);
 		}
 
+		// mengembalikan string output seluruh ruangan dalam bentuk
+		// JSON array sesuai dengan kebutuhan interpreter pada PHP
 		public String getAllOutput(){
 			String output = "";
 			output += "[";
