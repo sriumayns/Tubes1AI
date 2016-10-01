@@ -1,4 +1,4 @@
-// Filename: SimAn.java
+// Filename: SimulatedAnnealing.java
 // Author: Faza Thirafi (13514033)
 
 import java.io.*;
@@ -49,22 +49,20 @@ public class SimulatedAnnealing {
 
 	}
 	
-	private static ScheduleBoard findSuccessor(ScheduleBoard current) {
-	/*	
+	private static ScheduleBoard findSuccessor(ScheduleBoard currentSchedule) {
 		int[] searchResult = {0,0};
-		int step = 0;
 		boolean conflictFound = false;
 		int scheduleIdx = 0;
 		Course course;
-		while ((scheduleIdx < scheduleBoard.length)&&(!conflictFound)) {
-			searchResult = scheduleBoard[scheduleIdx].getConflictSlot();
+		while ((scheduleIdx < currentSchedule.length)&&(!conflictFound)) {
+			searchResult = currentSchedule[scheduleIdx].getConflictSlot();
 			if ((searchResult[1] !=0)&&(searchResult[0]!=0)) {
 				conflictFound = true;
 			}
 		scheduleIdx++;
 		}
 		if (conflictFound) {
-			course = scheduleBoard[scheduleIdx-1].getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
+			course = currentSchedule[scheduleIdx-1].getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
 			//
 			int randomRoomIndex;
 			String choosenRoomName;
@@ -87,19 +85,19 @@ public class SimulatedAnnealing {
 				randomDay = availDay[randomDayIdx];
 				randomHour = randInt(course.getStartHourConstraint(),course.getEndHourConstraint()-1);
 				newRoomIdx =0;
-				while (!scheduleBoard[newRoomIdx].getRoom().getRoomName().equals(choosenRoomName)) {
+				while (!currentSchedule.getScheduleWithIndex(newRoomIdx).getRoom().getRoomName().equals(choosenRoomName)) {
 					newRoomIdx++;
 				}
-				if (scheduleBoard[newRoomIdx].isScheduleLocked(randomDay,randomHour)) {
+				if (currentSchedule.getScheduleWithIndex(newRoomIdx).isScheduleLocked(randomDay,randomHour)) {
 					slotLock = true;
 				}
 			}
 			if ((randomDay !=0)&&(randomHour !=0)) {
-				scheduleBoard[newRoomIdx].insertCourseToSchedule(randomDay,randomHour,course);
+				currentSchedule.getScheduleWithIndex(newRoomIdx).insertCourseToSchedule(randomDay,randomHour,course);
 			}
 			
-		}*/
-		return current;
+		}
+		return currentSchedule;
 	}
 	
 	
