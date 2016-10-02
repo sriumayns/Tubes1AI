@@ -87,7 +87,7 @@ public class Main{
 				for (int day = 1; day <6;day++)
 					if (sch.getSlot(day, hour).getNumberOfCourse() > 0)
 						for (int i=0; i< sch.getSlot(day, hour).getNumberOfCourse(); i++)
-							mp.addJadwal(day - i, hour, sch.getSlot(day, hour).getCourseWithIndex(i).getCourseName());
+							mp.addJadwal(day, hour, sch.getSlot(day, hour).getCourseWithIndex(i).getCourseName());
 							// System.out.print(sch.getRoom().getSlot(day, hour).getCourseWithIndex(i).getCourseName());
 		}
 
