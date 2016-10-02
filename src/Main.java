@@ -34,7 +34,7 @@ public class Main{
 			board.printScheduleBoard();
 			System.out.println("======================================================================================");		
 			System.out.println("Conflict: "+board.countConflict());
-
+			System.out.println("Accuracy: "+board.getAccuracy());
 			return;
 		}
 
