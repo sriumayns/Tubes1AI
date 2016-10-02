@@ -47,6 +47,9 @@ public class SimulatedAnnealing {
 					if ((float) prob>randomProbab) {
 						currState = succState; 
 					}
+					else {
+						stopLoop = true;
+					}
 				}
 				currTemperature -= tempReduction; //decreasing currTemperature
 			}
