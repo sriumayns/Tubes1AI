@@ -5,10 +5,15 @@ import java.lang.Math;
 
 public class SimulatedAnnealing {
 
+	public static ScheduleBoard runSimulatedAnnealing(){
+		ScheduleBoard scheduleBoard = new ScheduleBoard();
+		simulatedAnnealing(scheduleBoard);
+		return scheduleBoard;
+	}
 	/*
 		Simulated Annealing main algorithm
 	*/
-	public static void SimulatedAnnealing(ScheduleBoard inputState) {
+	public static void simulatedAnnealing(ScheduleBoard inputState) {
 		int currTemperature;
 		int intialTemperature = 100;
 		int tempReduction = 1;
@@ -72,7 +77,7 @@ public class SimulatedAnnealing {
 			hour = temp_result[1];
 			scheduleIdx = temp_result[2];
 
-			courseId = currentSchedule.getLastInsertedCourseId(scheduleIdx,day.hour);
+			courseId = currentSchedule.getLastInsertedCourseId(scheduleIdx,day,hour);
 			course = currentSchedule.getAndDeleteCourseById(courseId,scheduleIdx,day,hour);
 			temp_result = currentSchedule.searchBestLocation(course.getTotalCredit());
 

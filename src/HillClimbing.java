@@ -1,8 +1,14 @@
 
 
 public class HillClimbing {
+
+	public static ScheduleBoard runHillClimbing(){
+		ScheduleBoard scheduleBoard = new ScheduleBoard();
+		hillClimbing(scheduleBoard);
+		return scheduleBoard;
+	}
 	
-	public static void hillClimbing(ScheduleBoard scheduleBoard) {
+	private static void hillClimbing(ScheduleBoard scheduleBoard) {
 		int step = 0;
 		int maxStep = 5;
 		int startStep = 0;
@@ -45,6 +51,6 @@ public class HillClimbing {
 
 
 		}
-		System.out.println("totalStep : "+step);
+		//System.out.println("totalStep : "+step);
 	} 
 }

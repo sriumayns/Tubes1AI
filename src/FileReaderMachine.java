@@ -7,11 +7,12 @@ public class FileReaderMachine{
 	private static Schedule[] schedules = new Schedule[10];
 	private static int roomSize = 0;
 	private static int courseSize = 0;
+	private static int nCredit = 0;
 
 	/*
 		Memindahkan isi testCase ke dalam array
 	*/
-	public static void readTestCase() throws IOException {
+	public static void readTestCase(String namaFile) throws IOException {
 		//READ FROM TXT
 		int roomIdx = 0;
 		int courseIdx = 0;
@@ -19,7 +20,7 @@ public class FileReaderMachine{
 		boolean readRoomActive = false;
 		boolean readCourseActive = false;
 		
-		BufferedReader in = new BufferedReader(new FileReader("Testcase.txt"));
+		BufferedReader in = new BufferedReader(new FileReader(namaFile));
 		String line;
 		while((line = in.readLine()) != null){
 			if (line.equals("")) {
@@ -53,6 +54,7 @@ public class FileReaderMachine{
 					readCourse.setId(courseSize+1);
 					courses[courseSize] = readCourse;
 					courseSize++;
+					nCredit = nCredit + Integer.parseInt(lineParsed[4]);
 				}
 			}
 		}
@@ -137,6 +139,13 @@ public class FileReaderMachine{
 	}
 
 	/*
+		Mengembalikan total sks yang ada pada test case
+	*/
+	public static int getNCredit(){
+		return nCredit;
+	}
+
+	/*
 		Sorting course berdasarkan dari yang paling terconstraint
 	*/
 	private static void sortingCourse(){
@@ -154,6 +163,17 @@ public class FileReaderMachine{
 
 			}
 		}
+	}
+
+	/*
+		Mengembalikan bilangan random dari min sampai max
+	*/
+
+	public static int randInt(int min, int max) {
+		Random rand = new Random();
+		int randomNum = rand.nextInt((max - min) + 1) + min;
+		
+		return randomNum;
 	}
 
 }

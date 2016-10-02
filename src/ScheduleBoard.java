@@ -16,6 +16,15 @@ public class ScheduleBoard{
 		}
 		initializeSolutionRandomly();
 	}
+
+	public ScheduleBoard(String status){
+		if(status.equals("empty")){
+			scheduleBoard = new Schedule[FileReaderMachine.getRoomSize()];	
+			for (int i=0; i < FileReaderMachine.getRoomSize(); i++) {
+				scheduleBoard[i] = new Schedule(FileReaderMachine.getRoomAtIdx(i));
+			}
+		}
+	}
 	
 	/*
 		Mengembalikan banyaknya Schedule dalam Schedule board
@@ -121,12 +130,12 @@ public class ScheduleBoard{
 				randomDayIdx = randInt(0,FileReaderMachine.getCourseAtIdx(i).getDayConstraint().length-1);
 				availDay = FileReaderMachine.getCourseAtIdx(i).getDayConstraint();
 				randomDay = availDay[randomDayIdx];
-				randomHour = randInt(FileReaderMachine.getCourseAtIdx(i).getStartHourConstraint(),FileReaderMachine.getCourseAtIdx(i).getEndHourConstraint()-1);
+				randomHour = randInt(FileReaderMachine.getCourseAtIdx(i).getStartHourConstraint(),FileReaderMachine.getCourseAtIdx(i).getEndHourConstraint()-FileReaderMachine.getCourseAtIdx(i).getTotalCredit());
 				j =0;
 				while (!scheduleBoard[j].getRoom().getRoomName().equals(choosenRoomName)) {
 					j++;
 				}
-				if (scheduleBoard[j].isScheduleOpen(randomDay,randomHour)) {
+				if (scheduleBoard[j].isScheduleOpen(randomDay,randomHour+FileReaderMachine.getCourseAtIdx(i).getTotalCredit()-1)) {
 					slotLock = false;
 				}
 			}
@@ -265,5 +274,17 @@ public class ScheduleBoard{
 	*/
 	public Course getAndDeleteCourseById(int courseId, int scheduleIdx, int day, int hour) {
 		return scheduleBoard[scheduleIdx].getAndDeleteCourseById(courseId,day,hour);
+	}
+
+	/*
+		Mengembalikan credit yang tidak bentrok dalam satu schedule board
+	*/
+	public int getNTrueCredit(){
+		int nCredit = 0;
+		for(int i = 0;i < scheduleBoard.length;i++){
+			nCredit = nCredit + scheduleBoard[i].getNTrueCreditSchedule();
+		}
+
+		return nCredit;
 	}
 }

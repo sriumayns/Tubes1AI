@@ -33,6 +33,31 @@ public class Schedule {
 		}
 	}
 
+	/*
+		Untuk mendapatkan Slot dari Schedule
+	*/
+	public Slot getSlot(int day, int hour) {
+		return slotTable[day][hour];
+	}
+
+	/*
+		Mengembalikan total sks yang benar	
+	*/
+	public int getNTrueCreditSchedule(){
+		int nCredit = 0;
+
+		for (int i = 1; i<6; i++) {
+			for (int j = 7; j<18; j++) {
+				if (slotTable[i][j].getNumberOfCourse() == 1){
+					nCredit++;
+				}
+				
+			}
+		}
+
+		return nCredit++;
+	}
+
 
 	/*
 		Untuk mendapatkan Room dari Schedule
