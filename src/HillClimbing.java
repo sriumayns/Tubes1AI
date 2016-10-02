@@ -40,8 +40,9 @@ public class HillClimbing {
 			}
 			else {
 				startStep = 0;
+				currentConflict = scheduleBoard.countConflict();
 			}
-			currentConflict = scheduleBoard.countConflict();
+
 
 		}
 		System.out.println("totalStep : "+step);
