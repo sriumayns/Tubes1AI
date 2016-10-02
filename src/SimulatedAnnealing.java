@@ -17,6 +17,7 @@ public class SimulatedAnnealing {
 		int currTemperature;
 		int intialTemperature = 100;
 		int tempReduction = 1;
+		int boltzmannConstant = 1;
 		ScheduleBoard currState = new ScheduleBoard();
 		ScheduleBoard succState = new ScheduleBoard();
 		boolean stopLoop = false;
@@ -41,7 +42,7 @@ public class SimulatedAnnealing {
 					float randomProbab = randFloat(0.0f,1.1f);
 
 					//counting Acceptance Probability Function
-					double prob = Math.exp((-1)* (float) Math.abs(evaluate(currState)-evaluate(succState)) / (float) currTemperature);
+					double prob = Math.exp((-1)* (float) Math.abs(evaluate(currState)-evaluate(succState)) / (float) (currTemperature*boltzmannConstant));
 					
 					//comparing both probability
 					if ((float) prob>randomProbab) {
