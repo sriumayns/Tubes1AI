@@ -45,9 +45,11 @@
       return $result;
     }
 
+    // echo javaOutput();
+    // exit();
     $datayy = json_decode(javaOutput());
-    // print_r($datayy);
-    $full_data = $datayy;
+    // var_dump($datayy);
+    $full_data = $datayy->data_tabel;
 
     $nav_tab_html = '<ul class="nav nav-tabs">';
     $content_tab_html = '<br/><div class="tab-content">';
@@ -90,13 +92,13 @@
           </tr>
           <tr>
             <td style="text-align: left;">
-              conflicts: 0
+              conflicts: <?php echo $datayy->konflik ?>
             </td>
             <td style="text-align: left;">
               &nbsp;&nbsp;&nbsp;&nbsp;
             </td>
             <td style="text-align: left;">
-              accuracy: 0%
+              accuracy:  <?php echo $datayy->akurasi ?>%
             </td>
           </tr>
         </table>

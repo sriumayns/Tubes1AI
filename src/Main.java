@@ -30,10 +30,13 @@ public class Main{
 		}
 		
 		
-		
-		board.printScheduleBoard();
-		System.out.println("======================================================================================");		
-		System.out.println("Conflict: "+board.countConflict());
+		if(args[2].equals("console")){
+			board.printScheduleBoard();
+			System.out.println("======================================================================================");		
+			System.out.println("Conflict: "+board.countConflict());
+
+			return;
+		}
 
 		/*
 			Setiap ScheduleBoard memiliki beberapa Schedule, 
@@ -53,7 +56,42 @@ public class Main{
 			cara menampilkan nama mata kuliah course.getCourseName() 
 		*/
 
-		
+		MasterRoom mr = new MasterRoom();
+		mr.setKonflik(board.countConflict());
+		mr.setAkurasi(25.67f);
+
+
+		for (int idx=0; idx < FileReaderMachine.getRoomSize(); idx++)
+			mr.addRoom(new BeRoom(false));
+
+		for (int idx=0; idx < FileReaderMachine.getRoomSize(); idx++){
+			Schedule sch = board.getScheduleWithIndex(idx);
+
+			BeRoom mp;
+			mp = mr.getRoom(idx);
+			mp.setNamaRuangan(sch.getRoom().getRoomName());
+			mp.setStartEndHour(sch.getRoom().getStartHour(), sch.getRoom().getEndHour());
+			int dayAvailable[] = sch.getRoom().getAvailableDay();
+
+			Boolean avail[] = new Boolean[6];
+			for(int k = 0; k < 6; k++)
+				avail[k] = false;
+
+			for(int k = 0; k < dayAvailable.length; k++)
+				avail[dayAvailable[k]] = true;
+
+			mp.setAvailableDay(avail[1], avail[2], avail[3], avail[4], avail[5]);
+
+
+			for (int hour = 7; hour<18; hour++)
+				for (int day = 1; day <6;day++)
+					if (sch.getSlot(day, hour).getNumberOfCourse() > 0)
+						for (int i=0; i< sch.getSlot(day, hour).getNumberOfCourse(); i++)
+							mp.addJadwal(day - i, hour, sch.getSlot(day, hour).getCourseWithIndex(i).getCourseName());
+							// System.out.print(sch.getRoom().getSlot(day, hour).getCourseWithIndex(i).getCourseName());
+		}
+
+		System.out.println(mr.getAllOutput());
 		
 	}
 }
