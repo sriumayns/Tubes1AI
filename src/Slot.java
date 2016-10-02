@@ -157,9 +157,15 @@ public class Slot{
 		Mengambil dan menghampus course dari slot berdasarkan id
 	*/
 	public Course getAndDeleteCourseById(int courseId) {
+		System.out.println("Slotsss.160");
+		System.out.println("CourseId: "+courseId);
+		System.out.println("numberOfCourse: "+numberOfCourse);
+
 		int i = 0;
 		boolean found = false;
 		while ((i < numberOfCourse)&&(!found)) {
+			System.out.println("Slot Indeks : "+i);
+			System.out.println("CourseId in Slot: "+courseList[i].getId());
 			if (courseList[i].getId() == courseId) {
 				found = true;
 			}
@@ -167,7 +173,9 @@ public class Slot{
 				i++;
 			}
 		}
+		System.out.println("found at index : "+i);
 		Course course;
+		Course emptyCourse = new Course();
 		if (i == numberOfCourse) {
 			course = new Course();
 			return course;
@@ -178,6 +186,8 @@ public class Slot{
 		for (int j = i; j < numberOfCourse - 1; j++) {
 			courseList[j] = courseList[j+1];
 		}
+		courseList[numberOfCourse] = emptyCourse();
+		numberOfCourse--;
 		return course;
 	}
 

@@ -179,10 +179,10 @@ public class ScheduleBoard{
 		int currentHour = 0;
 		int currentSchedule = 0;
 		int currentConflict = 0;
-		int[] result_temp;
+		int[] result_temp = new int[2];
 		int[] result = new int[3];
 		for(int i=0; i < scheduleBoard.length; i++) {
-			result_temp = scheduleBoard[i].getMaxConflictLocation();
+			result_temp = scheduleBoard[i].getMaxConflictSlot();
 			if((result_temp[0]!=0)&&(result_temp[1]!=0)) {
 				if(currentConflict < scheduleBoard[i].getConflict(result_temp[0],result_temp[1])) {
 					currentConflict = scheduleBoard[i].getConflict(result_temp[0],result_temp[1]);
@@ -222,10 +222,11 @@ public class ScheduleBoard{
 		int currentDay = 0;
 		int currentStartHour = 0;
 		int currentSchedule = 0;
-		int[] result_temp;
-		for (int i =0; i < scheduleBoard.lenght; i++) {
+		int[] result_temp = new int[3];
+		int[] result = new int[3];
+		for (int i =0; i < scheduleBoard.length; i++) {
 			result_temp =  scheduleBoard[i].searchBestSlot(totalCredit);
-			if ((result_temp[0]!=0)&&(result_temp[1]!=0)&&(result_temp[2]!=0)) {
+			if ((result_temp[0]!=0)&&(result_temp[1]!=0)) {
 				if(result_temp[2] < currentConflict) {
 					currentConflict = result_temp[2];
 					currentDay =  result_temp[0];
@@ -234,6 +235,8 @@ public class ScheduleBoard{
 				}
 			}
 		}
+		System.out.println("ScheduleBoard.238");
+		System.out.println("day: "+currentDay+"   hour: "+currentStartHour+"  currentConflict: "+currentConflict);
 		if (currentConflict == 10000) {
 			result[0] = 0;
 			result[1] = 0;
@@ -250,6 +253,8 @@ public class ScheduleBoard{
 		Menambahkan course ke schedule berdasarkan indeks schedule, hari dan jam mulai.
 	*/
 	public void insertCourse(Course course, int scheduleIdx, int day, int startHour) {
+		System.out.println("ScheduleBoard.254");
+		System.out.println("day: "+day+"   hour: "+startHour);
 		scheduleBoard[scheduleIdx].insertCourseToSchedule(day,startHour,course);
 	}
 	/*

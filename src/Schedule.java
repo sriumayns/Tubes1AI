@@ -77,18 +77,14 @@ public class Schedule {
 		Digunakan untuk menambahkan course ke slot
 	*/
 	public void insertCourseToSchedule(int day, int timeStart, Course course) {
+		System.out.println("Schedule.80");
+		System.out.println("day: "+day+"   hour: "+timeStart);
 		for(int i = 0;i < course.getTotalCredit();i++){
 			slotTable[day][timeStart + i].insertCourse(course);	
 		}
 		
 	}
 
-	/*
-	
-	*/
-	public Course getCourseById(int day, int hour,int id) {
-		return slotTable[day][hour].getCourseById(id);
-	}
 
 	
 	/*	
@@ -200,7 +196,6 @@ public class Schedule {
 
 
 	public int[] getMaxConflictSlot() {
-		int[] result = new int[2];
 		int currentDay = 0;
 		int currentHour = 0;
 		int currentConflict =0;
@@ -215,6 +210,7 @@ public class Schedule {
 
 			}
 		}
+
 		if ((currentDay == 0)&&(currentHour==0)){
 			result[0] = 0;
 			result[1] = 0;
@@ -265,6 +261,8 @@ public class Schedule {
 				}
 			}
 		}
+		System.out.println("Scheduleddd.264");
+		System.out.println("day: "+currentDay+"   hour: "+currentStartHour+ "     currentFreeIndex: "+currentFreeIndex);
 		if (currentFreeIndex == 9000) {
 			result[0] = 0;
 			result[1] = 0;
@@ -296,13 +294,13 @@ public class Schedule {
 		serupa (memiliki id yang sama) di sekitar course tersebut.
 	*/
 	public Course getAndDeleteCourseById(int courseId, int day, int hour) {
-		Course course = slotTable[day][hour].getAndDeletCourseById(courseId);
+		Course course = slotTable[day][hour].getAndDeleteCourseById(courseId);
 		Course cleanCourse;
 		for (int i = hour; ((i < 18)&&(i < hour + course.getTotalCredit()-1));i++) {
-			cleanCourse = slotTable[day][i].getAndDeletCourseById(courseId);
+			cleanCourse = slotTable[day][i].getAndDeleteCourseById(courseId);
 		}
 		for (int j = hour; ((j > 6)&&(j > hour - course.getTotalCredit()+1));j--) {
-			cleanCourse = slotTable[day][j].getAndDeletCourseById(courseId);
+			cleanCourse = slotTable[day][j].getAndDeleteCourseById(courseId);
 		}
 		return course;
 	}
