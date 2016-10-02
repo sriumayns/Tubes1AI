@@ -77,8 +77,6 @@ public class Schedule {
 		Digunakan untuk menambahkan course ke slot
 	*/
 	public void insertCourseToSchedule(int day, int timeStart, Course course) {
-		System.out.println("Schedule.80");
-		System.out.println("day: "+day+"   hour: "+timeStart);
 		for(int i = 0;i < course.getTotalCredit();i++){
 			slotTable[day][timeStart + i].insertCourse(course);	
 		}
@@ -251,7 +249,7 @@ public class Schedule {
 					if (!slotTable[day][i].isOpen()) {
 						isOpen = false;
 					}
-					countConflict += slotTable[day][i].getNumberOfConflict();
+					countConflict += slotTable[day][i].getNumberOfCourse();
 				}
 				if ((isOpen)&&(countConflict < currentFreeIndex)) {
 					currentFreeIndex = countConflict;
@@ -261,8 +259,6 @@ public class Schedule {
 				}
 			}
 		}
-		System.out.println("Scheduleddd.264");
-		System.out.println("day: "+currentDay+"   hour: "+currentStartHour+ "     currentFreeIndex: "+currentFreeIndex);
 		if (currentFreeIndex == 9000) {
 			result[0] = 0;
 			result[1] = 0;
@@ -296,10 +292,10 @@ public class Schedule {
 	public Course getAndDeleteCourseById(int courseId, int day, int hour) {
 		Course course = slotTable[day][hour].getAndDeleteCourseById(courseId);
 		Course cleanCourse;
-		for (int i = hour; ((i < 18)&&(i < hour + course.getTotalCredit()-1));i++) {
+		for (int i = hour; ((i < 18)&&(i < hour + course.getTotalCredit()));i++) {
 			cleanCourse = slotTable[day][i].getAndDeleteCourseById(courseId);
 		}
-		for (int j = hour; ((j > 6)&&(j > hour - course.getTotalCredit()+1));j--) {
+		for (int j = hour; ((j > 6)&&(j > hour - course.getTotalCredit( )));j--) {
 			cleanCourse = slotTable[day][j].getAndDeleteCourseById(courseId);
 		}
 		return course;

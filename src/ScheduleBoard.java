@@ -235,8 +235,6 @@ public class ScheduleBoard{
 				}
 			}
 		}
-		System.out.println("ScheduleBoard.238");
-		System.out.println("day: "+currentDay+"   hour: "+currentStartHour+"  currentConflict: "+currentConflict);
 		if (currentConflict == 10000) {
 			result[0] = 0;
 			result[1] = 0;
@@ -253,8 +251,6 @@ public class ScheduleBoard{
 		Menambahkan course ke schedule berdasarkan indeks schedule, hari dan jam mulai.
 	*/
 	public void insertCourse(Course course, int scheduleIdx, int day, int startHour) {
-		System.out.println("ScheduleBoard.254");
-		System.out.println("day: "+day+"   hour: "+startHour);
 		scheduleBoard[scheduleIdx].insertCourseToSchedule(day,startHour,course);
 	}
 	/*
