@@ -47,7 +47,14 @@
 
     // echo javaOutput();
     // exit();
-    $datayy = json_decode(javaOutput());
+
+    $algo_id = 1;
+    if(isset($_POST['algorithm_id']))
+      $algo_id = $_POST['algorithm_id'];
+
+    // echo "<div>" . $algo_id . "</div>";
+    
+    $datayy = json_decode(javaOutput($algo_id));
     // var_dump($datayy);
     $full_data = $datayy->data_tabel;
 
@@ -106,16 +113,18 @@
     </div>
     <div class="row">
       <div class="col-sm-3 text-center setal">
-        <div class="algorithm">
-          ALGORITHM
-        </div>
-        <div class="choose">
-          <input type="radio" name="algo" value="Hill_climbing" checked="checked" />Hill-climbing<br/>
-          <input type="radio" name="algo" value="Simulated_Annealing" />Simulated Annealing<br/>
-          <input type="radio" name="algo" value="Genetic_Algorithm" />Genetic Algorithm<br/>
-          <input type="text" placeholder="File schedule" class="fs" />
-        </div>
-        <button type="button" class="btn btn-primary btn-lg pull-right generate">Generate</button>
+        <form method='post' action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>'>
+          <div class="algorithm">
+            ALGORITHM
+          </div>
+          <div class="choose">
+            <input type="radio" name="algorithm_id" value="1" <?php echo ($algo_id == 1) ? 'checked="checked"' : '' ?> />Hill-climbing<br/>
+            <input type="radio" name="algorithm_id" value="2" <?php echo ($algo_id == 2) ? 'checked="checked"' : '' ?> />Simulated Annealing<br/>
+            <input type="radio" name="algorithm_id" value="3" <?php echo ($algo_id == 3) ? 'checked="checked"' : '' ?> />Genetic Algorithm<br/>
+            <input type="text" placeholder="File schedule" class="fs" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg pull-right generate">Generate</button>
+        </form>
         <div class="help-about">
           <div>
             Help
