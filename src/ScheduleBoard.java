@@ -117,9 +117,10 @@ public class ScheduleBoard{
 			int randomDayIdx;
 			int[] availDay;
 			int j=0;
-
+			int totalCredit;
 			// Meramdom Course sampai course mendapatkan ruangan yang tidak terconstraint
 			while (slotLock) {
+				slotLock = false;
 				if (FileReaderMachine.getCourseAtIdx(i).getRoomConstraint().equals("-")) {
 					randomRoomIndex = randInt(0,FileReaderMachine.getRoomSize()-1);
 					choosenRoomName = FileReaderMachine.getRoomAtIdx(randomRoomIndex).getRoomName();
@@ -135,9 +136,17 @@ public class ScheduleBoard{
 				while (!scheduleBoard[j].getRoom().getRoomName().equals(choosenRoomName)) {
 					j++;
 				}
-				if (scheduleBoard[j].isScheduleOpen(randomDay,randomHour+FileReaderMachine.getCourseAtIdx(i).getTotalCredit()-1)) {
-					slotLock = false;
+
+				totalCredit =  FileReaderMachine.getCourseAtIdx(i).getTotalCredit();
+				for (int k = 0; k < totalCredit; k++) {
+					if (!scheduleBoard[j].isScheduleOpen(randomDay,randomHour+k)) {
+						slotLock = true;
+					}
+
 				}
+				/*if (scheduleBoard[j].isScheduleOpen(randomDay,randomHour+FileReaderMachine.getCourseAtIdx(i).getTotalCredit()-1)) {
+					slotLock = false;
+				}*/
 			}
 			scheduleBoard[j].insertCourseToSchedule(randomDay,randomHour,FileReaderMachine.getCourseAtIdx(i));
 		}
