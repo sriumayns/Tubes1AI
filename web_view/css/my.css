@@ -87,6 +87,7 @@ table tr, table td, table th{
 	padding: 5px;
 	font-size: 20px;
 	text-indent: 10px;
+	cursor: pointer;
 }
 
 .generate{
