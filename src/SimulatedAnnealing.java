@@ -1,13 +1,9 @@
-// Filename: SimulatedAnnealing.java
-// Author: Faza Thirafi (13514033)
 
 import java.io.*;
 import java.util.*;
 import java.lang.Math;
 
 public class SimulatedAnnealing {
-	
-	
 
 	/*
 		Simulated Annealing main algorithm
@@ -31,7 +27,7 @@ public class SimulatedAnnealing {
 			else {
 				succState = findSuccessor(currState);
 				evalDiff = evaluate(succState) - evaluate(currState);
-				if (evalDiff>0) {
+				if (evalDiff <= 0) {
 					currState = succState;
 				}
 				else {
@@ -40,15 +36,15 @@ public class SimulatedAnnealing {
 					float randomProbab = randFloat(0.0f,1.1f);
 
 					//counting Acceptance Probability Function
-					double prob = Math.exp((evaluate(currState)-evaluate(succState)) / currTemperature);
+					double prob = Math.exp((-1)* (float) Math.abs(evaluate(currState)-evaluate(succState)) / (float) currTemperature);
 					
 					//comparing both probability
 					if ((float) prob>randomProbab) {
 						currState = succState; 
 					}
 				}
+				currTemperature -= tempReduction; //decreasing currTemperature
 			}
-			currTemperature -= tempReduction; //decreasing currTemperature
 		}
 		
 		inputState = currState;
@@ -58,71 +54,37 @@ public class SimulatedAnnealing {
 		method for finding the successor of a state (SceduleBoard state)
 	*/
 	private static ScheduleBoard findSuccessor(ScheduleBoard currentSchedule) {
-		int[] searchResult = {0,0}; //pair of day and hour
-		boolean conflictFound = false;
-		int scheduleIdx = 0;
+		int currentConflict = currentSchedule.countConflict();
+
+		int scheduleIdx;
+		int day;
+		int hour;
+		int selectedDay;
+		int selectedHour;
+		int selectedScheduleIdx;
 		Course course;
+		int courseId;
+		int[] temp_result; 
 
-	/*	
-		//sequentially check if there's any conflict in each schedule
-		while ((scheduleIdx < currentSchedule.getScheduleBoardLength())&&(!conflictFound)) {
-			searchResult = currentSchedule.getScheduleWithIndex(scheduleIdx).getConflictSlot();
-			if ((searchResult[1] !=0)&&(searchResult[0]!=0)) {
-				conflictFound = true;
-			}
-			scheduleIdx++;
-		}
+		if (currentConflict > 0) {
+			temp_result = currentSchedule.getMaxConflictLocation();
+			day = temp_result[0];
+			hour = temp_result[1];
+			scheduleIdx = temp_result[2];
 
-		//if any conflict found, try to relocate
-		if (conflictFound) {
-			course = currentSchedule.getScheduleWithIndex(scheduleIdx-1).getAndDeleteLastInsertedCourseFromSLot(searchResult[0],searchResult[1]);
+			courseId = currentSchedule.getLastInsertedCourseId(scheduleIdx,day.hour);
+			course = currentSchedule.getAndDeleteCourseById(courseId,scheduleIdx,day,hour);
+			temp_result = currentSchedule.searchBestLocation(course.getTotalCredit());
 
-			int randomRoomIndex;
-			String choosenRoomName;
-			int randomDayIdx;
-			int[] availDay;
-			int randomDay=0;
-			int randomHour=0;
-			boolean slotLock = false;
-			int newRoomIdx = 0;
-			while (!slotLock) {
-				if (course.getRoomConstraint().equals("-")) {
-					randomRoomIndex = randInt(0,roomNumber-1);
-					choosenRoomName = rooms[randomRoomIndex].getRoomName();
-				}
-				else {
-					choosenRoomName = course.getRoomConstraint();
-				}
-				randomDayIdx = randInt(0,course.getDayConstraint().length-1);
-				availDay = course.getDayConstraint();
-				randomDay = availDay[randomDayIdx];
-				randomHour = randInt(course.getStartHourConstraint(),course.getEndHourConstraint()-1);
-				newRoomIdx =0;
-				while (!currentSchedule.getScheduleWithIndex(newRoomIdx).getRoom().getRoomName().equals(choosenRoomName)) {
-					newRoomIdx++;
-				}
-				if (currentSchedule.getScheduleWithIndex(newRoomIdx).isScheduleLocked(randomDay,randomHour)) {
-					slotLock = true;
-				}
-			}
-			if ((randomDay !=0)&&(randomHour !=0)) {
-				currentSchedule.getScheduleWithIndex(newRoomIdx).insertCourseToSchedule(randomDay,randomHour,course);
-			}
-			
-		}
-		*/
+			selectedDay = temp_result[0];
+			selectedHour = temp_result[1];
+			selectedScheduleIdx = temp_result[2];
+
+			currentSchedule.insertCourse(course,selectedScheduleIdx,selectedDay,selectedHour);
+		}	
+
 		return currentSchedule;
 	}
-
-	/*
-		Generating random integer value
-	*/	
-	public static int randInt(int min, int max) {
-		Random rand = new Random();
-		int randomNum = rand.nextInt((max - min) + 1) + min;
-
-		return randomNum;
-	}	
 
 	/*
 		Generating random float value
