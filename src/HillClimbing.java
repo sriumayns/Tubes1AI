@@ -37,12 +37,12 @@ public class HillClimbing {
 			if (!course.getRoomConstraint().equals("-")) {
 				roomName = course.getRoomConstraint();
 				selectedScheduleIdx = scheduleBoard.getScheduleIdx(roomName);
-				temp_result = scheduleBoard.searchBestLocationOnSchedule(selectedScheduleIdx,course.getTotalCredit());
+				temp_result = scheduleBoard.searchBestLocationOnSchedule(selectedScheduleIdx,course);
 				selectedDay = temp_result[0];
 				selectedHour = temp_result[1];
 			}
 			else {
-				temp_result = scheduleBoard.searchBestLocation(course.getTotalCredit());
+				temp_result = scheduleBoard.searchBestLocation(course);
 				selectedDay = temp_result[0];
 				selectedHour = temp_result[1];
 				selectedScheduleIdx = temp_result[2];

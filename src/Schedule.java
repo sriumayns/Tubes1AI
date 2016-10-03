@@ -270,7 +270,10 @@ public class Schedule {
 		int[1] = 0; 
 		int[2] = 0;
 	*/
-	public int[] searchBestSlot(int totalCredit) {
+	public int[] searchBestSlot(Course course) {
+		int totalCredit = course.getTotalCredit();
+		int startHourConstarint = course.getStartHourConstraint();
+		int endHourConstraint = course.getEndHourConstraint();
 		int currentDay = 0;
 		int currentStartHour = 0;
 		int currentFreeIndex = 10000;
@@ -283,6 +286,9 @@ public class Schedule {
 				isOpen = true;
 				for(int i = hour; i < hour+totalCredit; i++) {
 					if (!slotTable[day][i].isOpen()) {
+						isOpen = false;
+					}
+					if ((hour < startHourConstarint)||(hour + totalCredit > endHourConstraint)) {
 						isOpen = false;
 					}
 					countConflict += slotTable[day][i].getNumberOfCourse();

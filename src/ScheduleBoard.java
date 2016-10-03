@@ -235,7 +235,8 @@ public class ScheduleBoard{
 		int[1] = 0; 
 		int[2] = 0;
 	*/
-	public int[] searchBestLocation(int totalCredit) {
+	public int[] searchBestLocation(Course course) {
+		int totalCredit = course.getTotalCredit();
 		int currentConflict = 10000;
 		int currentDay = 0;
 		int currentStartHour = 0;
@@ -243,7 +244,7 @@ public class ScheduleBoard{
 		int[] result_temp = new int[3];
 		int[] result = new int[3];
 		for (int i =0; i < scheduleBoard.length; i++) {
-			result_temp =  scheduleBoard[i].searchBestSlot(totalCredit);
+			result_temp =  scheduleBoard[i].searchBestSlot(course);
 			if ((result_temp[0]!=0)&&(result_temp[1]!=0)) {
 				if(result_temp[2] < currentConflict) {
 					currentConflict = result_temp[2];
@@ -268,10 +269,11 @@ public class ScheduleBoard{
 	/*
 		Seperti seatchBestLocation tetapi hanya melakukan pencarian di sebuah schedule berdasarkan indeks.
 	*/
-	public int[] searchBestLocationOnSchedule(int scheduleIdx, int totalCredit) {
+	public int[] searchBestLocationOnSchedule(int scheduleIdx, Course course) {
+		int totalCredit =  course.getTotalCredit();
 		int[] result_temp = new int[3];
 		int[] result = new int[3];
-		result_temp = scheduleBoard[scheduleIdx].searchBestSlot(totalCredit);
+		result_temp = scheduleBoard[scheduleIdx].searchBestSlot(course);
 		if ((result_temp[0]==0)&&(result_temp[1]==0)) {
 			result[0] = 0;
 			result[1] = 0;
