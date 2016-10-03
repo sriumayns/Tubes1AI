@@ -34,7 +34,7 @@ public class Main{
 			board.printScheduleBoard();
 			System.out.println("======================================================================================");		
 			System.out.println("Conflict: "+board.countConflict());
-
+			System.out.println("Accuracy: "+board.getAccuracy());
 			return;
 		}
 
@@ -58,7 +58,7 @@ public class Main{
 
 		MasterRoom mr = new MasterRoom();
 		mr.setKonflik(board.countConflict());
-		mr.setAkurasi(25.67f);
+		mr.setAkurasi(board.getAccuracy());
 
 
 		for (int idx=0; idx < FileReaderMachine.getRoomSize(); idx++)
@@ -87,7 +87,7 @@ public class Main{
 				for (int day = 1; day <6;day++)
 					if (sch.getSlot(day, hour).getNumberOfCourse() > 0)
 						for (int i=0; i< sch.getSlot(day, hour).getNumberOfCourse(); i++)
-							mp.addJadwal(day - i, hour, sch.getSlot(day, hour).getCourseWithIndex(i).getCourseName());
+							mp.addJadwal(day, hour, sch.getSlot(day, hour).getCourseWithIndex(i).getCourseName());
 							// System.out.print(sch.getRoom().getSlot(day, hour).getCourseWithIndex(i).getCourseName());
 		}
 

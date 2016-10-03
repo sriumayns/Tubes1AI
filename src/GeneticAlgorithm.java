@@ -83,16 +83,14 @@ public class GeneticAlgorithm{
 					for(int l=0; l<tabSchedule[i].getSlot(j,k).getNumberOfCourse(); l++){
 						String courseSchedule = iRoom + "";
 						courseSchedule = courseSchedule + j;
-						//courseSchedule = courseSchedule + iHour;
 						courseSchedule = courseSchedule + tabSchedule[i].getSlot(j,k).getCourse(l).getTotalCredit();
-						courseSchedule = courseSchedule + getCourseCode(tabSchedule[i].getSlot(j,k).getCourse(l).getCourseName());
-						//System.out.println(courseSchedule);
+						courseSchedule = courseSchedule + getCourseCode(tabSchedule[i].getSlot(j,k).getCourse(l).getId());
 						if (!isCourseWritten(scheduleBoardStr,courseSchedule)){
 							scheduleBoardStr[0] = scheduleBoardStr[0] + iRoom;
 							scheduleBoardStr[1] = scheduleBoardStr[1] + j;
 							scheduleBoardStr[2] = scheduleBoardStr[2] + iHour;
 							scheduleBoardStr[3] = scheduleBoardStr[3] + tabSchedule[i].getSlot(j,k).getCourse(l).getTotalCredit();
-							scheduleBoardStr[4] = scheduleBoardStr[4] + getCourseCode(tabSchedule[i].getSlot(j,k).getCourse(l).getCourseName());
+							scheduleBoardStr[4] = scheduleBoardStr[4] + getCourseCode(tabSchedule[i].getSlot(j,k).getCourse(l).getId());
 						}
 					}
 					iHour++;
@@ -100,6 +98,10 @@ public class GeneticAlgorithm{
 			}
 			iRoom++;
 		}
+		scheduleBoardStr = sortStrByCourse(scheduleBoardStr);
+		/*for(int i=0; i<5; i++){
+			System.out.println(scheduleBoardStr[i]);
+		}*/
 		return scheduleBoardStr;
 	}
 
@@ -125,12 +127,12 @@ public class GeneticAlgorithm{
 
 	/*
 	*/
-	public static char getCourseCode(String course){
+	public static char getCourseCode(int courseId){
 		char code = 'A';
 		int i = 0;
 		boolean found = false;
 		while (i<FileReaderMachine.getCourseSize() && !found){
-			if (FileReaderMachine.getCourseAtIdx(i).getCourseName().equals(course)){
+			if (FileReaderMachine.getCourseAtIdx(i).getId()==courseId){
 				found = true;
 			} else {
 				code++;
@@ -250,5 +252,47 @@ public class GeneticAlgorithm{
 
 			}
 		}
+	}
+	private static String[] sortStrByCourse(String[] scheduleBoardStr){
+		StringBuilder roomStr = new StringBuilder(scheduleBoardStr[0]);
+		StringBuilder dayStr = new StringBuilder(scheduleBoardStr[1]);
+		StringBuilder hourStr = new StringBuilder(scheduleBoardStr[2]);
+		StringBuilder creditStr = new StringBuilder(scheduleBoardStr[3]);
+		StringBuilder courseStr = new StringBuilder(scheduleBoardStr[4]);
+		
+		char temp = ' ';
+		for(int i=1; i<roomStr.length(); i++){
+			for (int j=0; j<i; j++) {
+				if(courseStr.charAt(j)>courseStr.charAt(i)){
+					temp = roomStr.charAt(j);
+					roomStr.setCharAt(j,roomStr.charAt(i));
+					roomStr.setCharAt(i,temp);
+
+					temp = dayStr.charAt(j);
+					dayStr.setCharAt(j,dayStr.charAt(i));
+					dayStr.setCharAt(i,temp);
+
+					temp = hourStr.charAt(j);
+					hourStr.setCharAt(j,hourStr.charAt(i));
+					hourStr.setCharAt(i,temp);
+
+					temp = creditStr.charAt(j);
+					creditStr.setCharAt(j,creditStr.charAt(i));
+					creditStr.setCharAt(i,temp);
+
+					temp = courseStr.charAt(j);
+					courseStr.setCharAt(j,courseStr.charAt(i));
+					courseStr.setCharAt(i,temp);
+				}
+			}
+		}
+		String[] result = new String[5];
+		result[0] = roomStr.toString();
+		result[1] = dayStr.toString();
+		result[2] = hourStr.toString();
+		result[3] = creditStr.toString();
+		result[4] = courseStr.toString();
+		return result;
+
 	}
 }

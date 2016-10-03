@@ -45,9 +45,25 @@
       return $result;
     }
 
-    // echo javaOutput();
+    // echo javaOutput(1, "tc/kosong");
     // exit();
-    $datayy = json_decode(javaOutput());
+
+    $algo_id = 1;
+    if(isset($_POST['algorithm_id']))
+      $algo_id = $_POST['algorithm_id'];
+
+    $tc_name = "tc/kosong";
+    $tc_real_name = "";
+    if(isset($_FILES["testcase"])){
+      $tc_name = $_FILES["testcase"]["tmp_name"];
+      $tc_real_name = basename($_FILES["testcase"]["name"]);
+    }
+
+    // echo basename($_POST["testcase"]["name"]);
+
+    // echo "<div>" . $algo_id . "</div>";
+    
+    $datayy = json_decode(javaOutput($algo_id, $tc_name));
     // var_dump($datayy);
     $full_data = $datayy->data_tabel;
 
@@ -82,7 +98,7 @@
         <table class="statistic">
           <tr>
             <td colspan="3" style="text-align: left;">
-              STATISTICS
+              STATISTICS <b><?php if($tc_real_name != "") echo $tc_real_name . " (" . ($algo_id == 1 ? "Hill-climbing" : ($algo_id == 2 ? "Simulated Annealing" : "Genetic Algorithm")) . ")"; ?></b>
             </td>
           </tr>
           <tr>
@@ -106,16 +122,21 @@
     </div>
     <div class="row">
       <div class="col-sm-3 text-center setal">
-        <div class="algorithm">
-          ALGORITHM
-        </div>
-        <div class="choose">
-          <input type="radio" name="algo" value="Hill_climbing" checked="checked" />Hill-climbing<br/>
-          <input type="radio" name="algo" value="Simulated_Annealing" />Simulated Annealing<br/>
-          <input type="radio" name="algo" value="Genetic_Algorithm" />Genetic Algorithm<br/>
-          <input type="text" placeholder="File schedule" class="fs" />
-        </div>
-        <button type="button" class="btn btn-primary btn-lg pull-right generate">Generate</button>
+        <form method='post' enctype='multipart/form-data' action='<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>'>
+          <div class="algorithm">
+            ALGORITHM
+          </div>
+          <div class="choose">
+            <input type="text" name="dump" id="file_input_trigger" placeholder="File schedule"class="fs" />
+            <div id="to_be_hide">
+              <input id="al_hc" type="radio" name="algorithm_id" value="1" <?php echo ($algo_id == 1) ? 'checked="checked"' : '' ?> /><label for="al_hc">Hill-climbing</label><br/>
+              <input id="al_sa" type="radio" name="algorithm_id" value="2" <?php echo ($algo_id == 2) ? 'checked="checked"' : '' ?> /><label for="al_sa">Simulated Annealing</label><br/>
+              <input id="al_ga" type="radio" name="algorithm_id" value="3" <?php echo ($algo_id == 3) ? 'checked="checked"' : '' ?> /><label for="al_ga">Genetic Algorithm</label>
+            </div>
+            <input type="file" name="testcase" id="file_input_ya" accept="*" class="hidden" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg pull-right generate">Generate</button>
+        </form>
         <div class="help-about">
           <div>
             Help
@@ -136,5 +157,20 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#file_input_trigger').click(function(){
+        $('#file_input_ya').trigger('click');
+      });
+      $("#file_input_ya").change(function (){
+        var fileName = $(this).val().split('\\');
+        $('#file_input_trigger').val(fileName[fileName.length - 1]);
+
+        if(fileName.length > 0)
+          $('#to_be_hide').show();
+      });
+      $('#to_be_hide').hide();
+    });
+  </script>
 </body>
 </html>

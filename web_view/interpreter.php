@@ -1,6 +1,6 @@
 <?php
-	function javaOutput(){
-		$ret = exec('java -cp ../src Main 1 ../src/Testcase.txt web');
+	function javaOutput($algo_id, $tc_name){
+		$ret = exec('java -cp ../src Main '. $algo_id . ' ' . $tc_name . ' web');
 
 		return $ret;
 	}
