@@ -60,5 +60,28 @@ public class GeneticAlgorithmString{
 		return conflictCredit;
 	}
 
+	/*
+	
+	*/
+	public boolean isValid(){
+		ScheduleBoard board = GeneticAlgorithm.getStrToScheduleBoard(schBoardStr);
+		Schedule[] schedules = board.getAllSchedule();
+
+		boolean valid = true;
+
+		int nCredit = 0;
+		for(int i = 0;i < schedules.length;i++){
+			nCredit = schedules[i].getNCredit();
+		}
+
+		if(nCredit == FileReaderMachine.getNCredit()){
+			valid = true;
+		}else{
+			valid = false;
+		}
+
+
+		return valid;
+	}
 
 }
