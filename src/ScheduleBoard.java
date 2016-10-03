@@ -301,8 +301,9 @@ public class ScheduleBoard{
 		Mengembalikan akurasi
 	*/
 	public int getAccuracy(){
-		int accuracy = (100 * getNTrueCredit()) / FileReaderMachine.getNCredit();
+		if(FileReaderMachine.getNCredit() == 0)
+			return 0;
 
-		return accuracy;
+		return (100 * getNTrueCredit()) / FileReaderMachine.getNCredit();
 	}
 }

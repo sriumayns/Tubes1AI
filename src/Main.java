@@ -58,7 +58,7 @@ public class Main{
 
 		MasterRoom mr = new MasterRoom();
 		mr.setKonflik(board.countConflict());
-		mr.setAkurasi(25.67f);
+		mr.setAkurasi(board.getAccuracy());
 
 
 		for (int idx=0; idx < FileReaderMachine.getRoomSize(); idx++)
