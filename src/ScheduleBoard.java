@@ -235,7 +235,8 @@ public class ScheduleBoard{
 		int[1] = 0; 
 		int[2] = 0;
 	*/
-	public int[] searchBestLocation(int totalCredit) {
+	public int[] searchBestLocation(Course course) {
+		int totalCredit = course.getTotalCredit();
 		int currentConflict = 10000;
 		int currentDay = 0;
 		int currentStartHour = 0;
@@ -243,7 +244,7 @@ public class ScheduleBoard{
 		int[] result_temp = new int[3];
 		int[] result = new int[3];
 		for (int i =0; i < scheduleBoard.length; i++) {
-			result_temp =  scheduleBoard[i].searchBestSlot(totalCredit);
+			result_temp =  scheduleBoard[i].searchBestSlot(course);
 			if ((result_temp[0]!=0)&&(result_temp[1]!=0)) {
 				if(result_temp[2] < currentConflict) {
 					currentConflict = result_temp[2];
@@ -262,6 +263,26 @@ public class ScheduleBoard{
 			result[0] = currentDay;
 			result[1] = currentStartHour;
 			result[2] = currentSchedule;
+		}
+		return result;
+	}
+	/*
+		Seperti seatchBestLocation tetapi hanya melakukan pencarian di sebuah schedule berdasarkan indeks.
+	*/
+	public int[] searchBestLocationOnSchedule(int scheduleIdx, Course course) {
+		int totalCredit =  course.getTotalCredit();
+		int[] result_temp = new int[3];
+		int[] result = new int[3];
+		result_temp = scheduleBoard[scheduleIdx].searchBestSlot(course);
+		if ((result_temp[0]==0)&&(result_temp[1]==0)) {
+			result[0] = 0;
+			result[1] = 0;
+			result[2] = 0;
+		}
+		else {
+			result[0] = result_temp[0];
+			result[1] = result_temp[1];
+			result[2] = scheduleIdx;
 		}
 		return result;
 	}
@@ -305,5 +326,22 @@ public class ScheduleBoard{
 			return 0;
 
 		return (100 * getNTrueCredit()) / FileReaderMachine.getNCredit();
+	}
+
+	/*
+		Mengembalikan indeks schedule yang memiliki nama ruangan = roomName
+	*/
+	public int getScheduleIdx(String roomName) {
+		int i =0;
+		boolean found = false;
+		while ((!found)&&(i < scheduleBoard.length)) {
+			if(roomName.equals(scheduleBoard[i].getRoom().getRoomName())) {
+				found = true;
+			}
+			else {
+				i++;
+			}
+		}
+		return i;
 	}
 }

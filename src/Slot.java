@@ -123,7 +123,6 @@ public class Slot{
 		numberOfCourse--;
 		return deletedCourse;
 	}
-	
 	/*
 		Mendelete Course pada index tertentu dan mengembalikan Course yang di delete
 	*/

@@ -23,6 +23,8 @@ public class HillClimbing {
 		Course course;
 		int courseId;
 		int[] temp_result = new int[3];
+		String roomName;
+
 
 		while ((currentConflict > 0)&&(startStep < maxStep)) {
 			step++;
@@ -32,11 +34,19 @@ public class HillClimbing {
 			scheduleIdx = temp_result[2];
 			courseId = scheduleBoard.getLastInsertedCourseId(scheduleIdx,day,hour);
 			course = scheduleBoard.getAndDeleteCourseById(courseId,scheduleIdx,day,hour);
-			temp_result = scheduleBoard.searchBestLocation(course.getTotalCredit());
-
-			selectedDay = temp_result[0];
-			selectedHour = temp_result[1];
-			selectedScheduleIdx = temp_result[2];
+			if (!course.getRoomConstraint().equals("-")) {
+				roomName = course.getRoomConstraint();
+				selectedScheduleIdx = scheduleBoard.getScheduleIdx(roomName);
+				temp_result = scheduleBoard.searchBestLocationOnSchedule(selectedScheduleIdx,course);
+				selectedDay = temp_result[0];
+				selectedHour = temp_result[1];
+			}
+			else {
+				temp_result = scheduleBoard.searchBestLocation(course);
+				selectedDay = temp_result[0];
+				selectedHour = temp_result[1];
+				selectedScheduleIdx = temp_result[2];
+			}
 
 			scheduleBoard.insertCourse(course,selectedScheduleIdx,selectedDay,selectedHour);
 			
