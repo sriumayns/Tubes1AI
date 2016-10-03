@@ -55,9 +55,20 @@ public class Schedule {
 			}
 		}
 
-		return nCredit++;
+		return nCredit;
 	}
 
+	public int getNCredit(){
+		int nCredit = 0;
+
+		for (int i = 1; i<6; i++) {
+			for (int j = 7; j<18; j++) {
+				nCredit = nCredit + slotTable[i][j].getNumberOfCourse();
+			}
+		}
+
+		return nCredit;
+	}
 
 	/*
 		Untuk mendapatkan Room dari Schedule
