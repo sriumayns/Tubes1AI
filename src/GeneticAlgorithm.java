@@ -7,7 +7,7 @@ public class GeneticAlgorithm{
 	*/
 	public static ScheduleBoard runGeneticAlgorithm(){
 		nIndividu = 0;
-		for (int i = 0;i < 4;i++) {
+		for (int i = 0;i < 10;i++) {
 			individu[nIndividu] = new GeneticAlgorithmString();
 			/*System.out.println(individu[i].getFitness());
 			System.out.println(individu[i].getConflictCredit());
@@ -24,7 +24,7 @@ public class GeneticAlgorithm{
 
 		int idx = -1;
 		int i = 0;
-		while((idx == -1) && (i < 30)){
+		while((idx == -1) && (i < 120) && (nIndividu < 70)){
 
 			for(int j = 0;j < nIndividu;j++){
 				if(individu[j].getConflictCredit() == 0){
@@ -36,7 +36,7 @@ public class GeneticAlgorithm{
 			if(idx == -1){
 				sortIndividuByRandom();
 				individu[nIndividu] = new GeneticAlgorithmString();
-				nIndividu++;
+				
 
 				String[] string1 = individu[0].getSchBoardStr();
 				String[] string2 = individu[1].getSchBoardStr();
@@ -49,7 +49,11 @@ public class GeneticAlgorithm{
  				scheduleBoardStr[3] = string1[3].substring(0,randomIndexs) + string2[3].substring(randomIndexs,FileReaderMachine.getCourseSize()-1); 
  				scheduleBoardStr[4] = string1[4];
 
- 				individu[nIndividu-1].setSchBoardStr(scheduleBoardStr);
+ 				individu[nIndividu].setSchBoardStr(scheduleBoardStr);
+ 				if(individu[nIndividu].isValid()){
+ 					nIndividu++;	
+ 				}
+ 				
 			}
 
 			i++;

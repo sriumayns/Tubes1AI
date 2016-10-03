@@ -238,4 +238,30 @@ public class Course {
 			dayConstraint[i] = Integer.parseInt(availableDayParsed[i]);
 		}
 	}
+
+	public boolean isValid(int day,int hour, String roomName){
+		boolean valid = false;
+
+		for(int i = 0;i < dayConstraint.length;i++){
+			if(dayConstraint[i] == day){
+				valid = true;
+			}
+		}
+
+		if(valid && (startHourConstraint <= hour) && (endHourConstraint <= hour)){
+			valid = true;
+		}else{
+			valid = false;
+		}
+
+		if(roomConstraint.equals("-")){
+			valid = true;
+		}else if(roomConstraint.equals(roomName)){
+			valid = true;
+		}else{
+			valid = false;
+		}
+
+		return valid;
+	}
 }
