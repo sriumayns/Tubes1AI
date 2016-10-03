@@ -45,7 +45,7 @@
       return $result;
     }
 
-    // echo javaOutput();
+    // echo javaOutput(1, "tc/kosong");
     // exit();
 
     $algo_id = 1;
