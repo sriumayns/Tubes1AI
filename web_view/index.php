@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/my.css">
   <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -35,7 +36,7 @@
     // echo random_color();
     function f_create_table($data){
       $result = '';
-      $result .= '<table class="table table-bordered">';
+      $result .= '<table class="course-tab table table-bordered">';
       $result .= '  <thead>';
       $result .= '    <tr>';
       $result .= '      <th class="thead" style="text-align: center; width: 100px;">Jam</th>';
@@ -54,7 +55,11 @@
         for($j = 0; $j <= 4; $j++){
           $temp = '';
           $temp .= $data->jadwal[$j][$i] . '<br/>';
-          $result .= '      <td '. 
+          $result .= '      <td id="' . (
+              $data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end) 
+              ? ''
+              : 'x'
+            ) . 'sel-'. $i . '-' . $j . '" ' .
             (
               $data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end) 
               ? ('style="background-color: #' . (
@@ -199,6 +204,33 @@
           $('#to_be_hide').show();
       });
       $('#to_be_hide').hide();
+
+      var c = {};
+
+      $("[id^=sel]").css('cursor', 'pointer');
+
+      $("[id^=sel]").draggable({
+        cursor: 'move',
+        helper: function() {
+          //debugger;
+          return $("<div style='padding: 10px; background-color: " + $(this).css('background-color') + "'></div>").append($(this).html());
+        },
+        start: function(event, ui) {
+          c.source = $(this);
+          c.bg_color = $(this).css('background-color');
+          c.teks = $(this).html();
+        }
+      });
+
+      $("[id^=sel]").droppable({
+        drop: function(event, ui) {
+          $(this).html(c.teks);
+          $(this).css('background-color', c.bg_color);
+
+          c.source.html('');
+          c.source.css('background-color', 'unset');
+        }
+      });
     });
   </script>
 </body>
