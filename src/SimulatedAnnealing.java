@@ -62,8 +62,8 @@ public class SimulatedAnnealing {
 	/*
 		method for finding the successor of a state (SceduleBoard state)
 	*/
-	private static ScheduleBoard findSuccessor(ScheduleBoard currentSchedule) {
-		int currentConflict = currentSchedule.countConflict();
+	private static ScheduleBoard findSuccessor(ScheduleBoard scheduleBoard) {
+		int currentConflict = scheduleBoard.countConflict();
 
 		int scheduleIdx;
 		int day;
@@ -73,26 +73,35 @@ public class SimulatedAnnealing {
 		int selectedScheduleIdx;
 		Course course;
 		int courseId;
-		int[] temp_result; 
+		int[] temp_result = new int[3];
+		String roomName;
 
 		if (currentConflict > 0) {
-			temp_result = currentSchedule.getMaxConflictLocation();
+			temp_result = scheduleBoard.getMaxConflictLocation();
 			day = temp_result[0];
 			hour = temp_result[1];
 			scheduleIdx = temp_result[2];
+			courseId = scheduleBoard.getLastInsertedCourseId(scheduleIdx,day,hour);
+			course = scheduleBoard.getAndDeleteCourseById(courseId,scheduleIdx,day,hour);
+			if (!course.getRoomConstraint().equals("-")) {
+				roomName = course.getRoomConstraint();
+				selectedScheduleIdx = scheduleBoard.getScheduleIdx(roomName);
+				temp_result = scheduleBoard.searchBestLocationOnSchedule(selectedScheduleIdx,course.getTotalCredit());
+				selectedDay = temp_result[0];
+				selectedHour = temp_result[1];
+			}
+			else {
+				temp_result = scheduleBoard.searchBestLocation(course.getTotalCredit());
+				selectedDay = temp_result[0];
+				selectedHour = temp_result[1];
+				selectedScheduleIdx = temp_result[2];
+			}
 
-			courseId = currentSchedule.getLastInsertedCourseId(scheduleIdx,day,hour);
-			course = currentSchedule.getAndDeleteCourseById(courseId,scheduleIdx,day,hour);
-			temp_result = currentSchedule.searchBestLocation(course.getTotalCredit());
-
-			selectedDay = temp_result[0];
-			selectedHour = temp_result[1];
-			selectedScheduleIdx = temp_result[2];
-
-			currentSchedule.insertCourse(course,selectedScheduleIdx,selectedDay,selectedHour);
+			scheduleBoard.insertCourse(course,selectedScheduleIdx,selectedDay,selectedHour);
+			
 		}	
 
-		return currentSchedule;
+		return scheduleBoard;
 	}
 
 	/*
