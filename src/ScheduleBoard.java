@@ -199,7 +199,19 @@ public class ScheduleBoard{
 		int currentConflict = 0;
 		int[] result_temp = new int[2];
 		int[] result = new int[3];
-		for(int i=0; i < scheduleBoard.length; i++) {
+		int iterate = randInt(0,scheduleBoard.length-1);
+		for(int i=iterate; i < scheduleBoard.length; i++) {
+			result_temp = scheduleBoard[i].getMaxConflictSlot();
+			if((result_temp[0]!=0)&&(result_temp[1]!=0)) {
+				if(currentConflict < scheduleBoard[i].getConflict(result_temp[0],result_temp[1])) {
+					currentConflict = scheduleBoard[i].getConflict(result_temp[0],result_temp[1]);
+					currentDay = result_temp[0];
+					currentHour = result_temp[1];
+					currentSchedule = i;
+				}
+			}
+		}
+		for(int i=0; i < iterate; i++) {
 			result_temp = scheduleBoard[i].getMaxConflictSlot();
 			if((result_temp[0]!=0)&&(result_temp[1]!=0)) {
 				if(currentConflict < scheduleBoard[i].getConflict(result_temp[0],result_temp[1])) {
@@ -243,7 +255,20 @@ public class ScheduleBoard{
 		int currentSchedule = 0;
 		int[] result_temp = new int[3];
 		int[] result = new int[3];
-		for (int i =0; i < scheduleBoard.length; i++) {
+		int i;
+		int iterate = randInt(0,scheduleBoard.length-1);
+		for (i =iterate; i < scheduleBoard.length; i++) {
+			result_temp =  scheduleBoard[i].searchBestSlot(course);
+			if ((result_temp[0]!=0)&&(result_temp[1]!=0)) {
+				if(result_temp[2] < currentConflict) {
+					currentConflict = result_temp[2];
+					currentDay =  result_temp[0];
+					currentStartHour = result_temp[1];
+					currentSchedule = i;
+				}
+			}
+		}
+		for (i =0; i < iterate; i++) {
 			result_temp =  scheduleBoard[i].searchBestSlot(course);
 			if ((result_temp[0]!=0)&&(result_temp[1]!=0)) {
 				if(result_temp[2] < currentConflict) {

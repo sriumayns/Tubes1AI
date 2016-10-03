@@ -234,7 +234,18 @@ public class Schedule {
 		int currentHour = 0;
 		int currentConflict =0;
 		int[] result = new int[2];
-		for (int day = 1; day < 6; day++) {
+		int iterate = randInt(1,5);
+		for (int day = iterate; day < 6; day++) {
+			for(int hour=7; hour < 18; hour++) {
+				if ((currentConflict < slotTable[day][hour].getNumberOfCourse())&&(slotTable[day][hour].isOpen())) {
+					currentConflict = slotTable[day][hour].getNumberOfCourse();
+					currentDay = day;
+					currentHour = hour;
+				}
+
+			}
+		}
+		for (int day = 1; day < iterate; day++) {
 			for(int hour=7; hour < 18; hour++) {
 				if ((currentConflict < slotTable[day][hour].getNumberOfCourse())&&(slotTable[day][hour].isOpen())) {
 					currentConflict = slotTable[day][hour].getNumberOfCourse();
@@ -281,7 +292,32 @@ public class Schedule {
 		boolean isOpen;
 		int countConflict;
 		int[] result = new int[3];
-		for (int day = 1; day < 6; day++) {
+		int iterate = randInt(1,5);
+		for (int day = iterate; day < 6; day++) {
+			for(int hour =7; hour < 18-totalCredit+1; hour++) {
+				countConflict = 0;
+				isOpen = true;
+				for(int i = hour; i < hour+totalCredit; i++) {
+					if (!slotTable[day][i].isOpen()) {
+						isOpen = false;
+					}
+					if ((hour < startHourConstarint)||(hour + totalCredit > endHourConstraint)) {
+						isOpen = false;
+					}
+					if (!isMember(dayConstraint,day)) {
+						isOpen = false;
+					}
+					countConflict += slotTable[day][i].getNumberOfCourse();
+				}
+				if ((isOpen)&&(countConflict < currentFreeIndex)) {
+					currentFreeIndex = countConflict;
+					currentStartHour = hour;
+					currentDay = day;
+					
+				}
+			}
+		}
+		for (int day = 1; day < iterate; day++) {
 			for(int hour =7; hour < 18-totalCredit+1; hour++) {
 				countConflict = 0;
 				isOpen = true;
@@ -359,6 +395,16 @@ public class Schedule {
 			i++;
 		}
 		return found;
+	}
+
+	/*
+		Mengembalikan bilangan random dari min sampai max
+	*/
+	public static int randInt(int min, int max) {
+		Random rand = new Random();
+		int randomNum = rand.nextInt((max - min) + 1) + min;
+		
+		return randomNum;
 	}
 
 }

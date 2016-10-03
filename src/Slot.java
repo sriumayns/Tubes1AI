@@ -150,7 +150,28 @@ public class Slot{
 		Mengembalikan id dari course
 	*/
 	public int getLastInsertedCourseId() {
-		return courseList[numberOfCourse-1].getId();
+		//return courseList[numberOfCourse-1].getId();
+		int[] leastConstrainedIndex =  new int[numberOfCourse];
+		int value;
+		int hasilDiv;
+		for (int i = 0; i < numberOfCourse; i++) {
+			value = 0;
+			if (!courseList[i].getRoomConstraint().equals("-")) {
+				value += 7;
+			}
+			value += courseList[i].getTotalCredit();
+			value += courseList[i].getDayConstraint().length;
+			hasilDiv = (10-(courseList[i].getEndHourConstraint()-courseList[i].getStartHourConstraint()))/2;
+			value += hasilDiv;
+
+		}
+		int id = 0;
+		for (int i = 0; i < numberOfCourse; i++) {
+			if (leastConstrainedIndex[id]>leastConstrainedIndex[i]) {
+				i = id;
+			}
+		}
+		return courseList[id].getId();
 	}
 	/*
 		Mengambil dan menghampus course dari slot berdasarkan id
