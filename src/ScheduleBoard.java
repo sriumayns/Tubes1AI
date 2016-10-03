@@ -266,6 +266,25 @@ public class ScheduleBoard{
 		return result;
 	}
 	/*
+		Seperti seatchBestLocation tetapi hanya melakukan pencarian di sebuah schedule berdasarkan indeks.
+	*/
+	public int[] searchBestLocationOnSchedule(int scheduleIdx, int totalCredit) {
+		int[] result_temp = new int[3];
+		int[] result = new int[3];
+		result_temp = scheduleBoard[scheduleIdx].searchBestSlot(totalCredit);
+		if ((result_temp[0]==0)&&(result_temp[1]==0)) {
+			result[0] = 0;
+			result[1] = 0;
+			result[2] = 0;
+		}
+		else {
+			result[0] = result_temp[0];
+			result[1] = result_temp[1];
+			result[2] = scheduleIdx;
+		}
+		return result;
+	}
+	/*
 		Menambahkan course ke schedule berdasarkan indeks schedule, hari dan jam mulai.
 	*/
 	public void insertCourse(Course course, int scheduleIdx, int day, int startHour) {
@@ -305,5 +324,22 @@ public class ScheduleBoard{
 			return 0;
 
 		return (100 * getNTrueCredit()) / FileReaderMachine.getNCredit();
+	}
+
+	/*
+		Mengembalikan indeks schedule yang memiliki nama ruangan = roomName
+	*/
+	public int getScheduleIdx(String roomName) {
+		int i =0;
+		boolean found = false;
+		while ((!found)&&(i < scheduleBoard.length)) {
+			if(roomName.equals(scheduleBoard[i].getRoom().getRoomName())) {
+				found = true;
+			}
+			else {
+				i++;
+			}
+		}
+		return i;
 	}
 }
