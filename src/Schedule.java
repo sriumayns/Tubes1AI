@@ -274,6 +274,7 @@ public class Schedule {
 		int totalCredit = course.getTotalCredit();
 		int startHourConstarint = course.getStartHourConstraint();
 		int endHourConstraint = course.getEndHourConstraint();
+		int[] dayConstraint = course.getDayConstraint();
 		int currentDay = 0;
 		int currentStartHour = 0;
 		int currentFreeIndex = 10000;
@@ -289,6 +290,9 @@ public class Schedule {
 						isOpen = false;
 					}
 					if ((hour < startHourConstarint)||(hour + totalCredit > endHourConstraint)) {
+						isOpen = false;
+					}
+					if (!isMember(dayConstraint,day)) {
 						isOpen = false;
 					}
 					countConflict += slotTable[day][i].getNumberOfCourse();
@@ -341,6 +345,20 @@ public class Schedule {
 			cleanCourse = slotTable[day][j].getAndDeleteCourseById(courseId);
 		}
 		return course;
+	}
+	/*
+		fungsi mengecek apakah sebuah integer (value) merupakan elemen dari array of integer (array) atau bukan
+	*/
+	public boolean isMember(int[] array, int value) {
+		int i = 0;
+		boolean found = false;
+		while((!found)&&(i < array.length)) {
+			if (array[i] == value) {
+				found = true;
+			}
+			i++;
+		}
+		return found;
 	}
 
 }

@@ -4,13 +4,17 @@ public class HillClimbing {
 
 	public static ScheduleBoard runHillClimbing(){
 		ScheduleBoard scheduleBoard = new ScheduleBoard();
+		scheduleBoard.printScheduleBoard();
+		System.out.println("==================================================================================");
+		System.out.println("==================================================================================");
+		System.out.println("==================================================================================");
 		hillClimbing(scheduleBoard);
 		return scheduleBoard;
 	}
 	
 	private static void hillClimbing(ScheduleBoard scheduleBoard) {
 		int step = 0;
-		int maxStep = 5;
+		int maxStep = 100;
 		int startStep = 0;
 		int currentConflict = scheduleBoard.countConflict();
 
