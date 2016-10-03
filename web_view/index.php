@@ -53,22 +53,18 @@
         $result .= '      <td class="thead" style="text-align: center; font-weight: bold;">' . ($i < 10 ? '0' : '') . $i . '.00</td>';
 
         for($j = 0; $j <= 4; $j++){
+          $room_is_avail = $data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end);
+
           $temp = '';
-          $temp .= $data->jadwal[$j][$i] . '<br/>';
-          $result .= '      <td id="' . (
-              $data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end) 
-              ? ''
-              : 'x'
-            ) . 'sel-'. $i . '-' . $j . '" ' .
-            (
-              $data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end) 
-              ? ('style="background-color: #' . (
-                $temp != "<br/>"
-                ? get_color($temp . $j)
-                : 'FFFFFF'
-              ) . '"') 
-              : 'class="red"'
-            ) . '>' . $temp . '</td>';
+          $arr_matkul = explode('`', $data->jadwal[$j][$i]);
+          for($p = 0; $p < sizeof($arr_matkul); $p++){
+            if($arr_matkul[$p] != "")
+              $temp .= '<div class="sel_matkul" id="' . 
+                ($room_is_avail ? '' : 'x') . 'sel-'. $i . '-' . $j . '" ' .
+              '" style="background-color: #' . get_color($arr_matkul[$p] . $j) . '">' . $arr_matkul[$p] . '</div>';
+          }
+
+          $result .= '<td id="' . 'drop-'. $i . '-' . $j . '" ' . '" style="padding: 0" ' . ($room_is_avail ? '' : 'class="red"') . '>' . $temp . '</td>';
         }
 
         $result .= '   </tr>';
@@ -216,19 +212,19 @@
           return $("<div style='padding: 10px; background-color: " + $(this).css('background-color') + "'></div>").append($(this).html());
         },
         start: function(event, ui) {
+          c.source_parent = $(this).parent;
+          $(this).hide();
           c.source = $(this);
-          c.bg_color = $(this).css('background-color');
-          c.teks = $(this).html();
+        },
+        stop: function(event, ui){
+          $(this).show();
         }
       });
 
-      $("[id^=sel]").droppable({
+      $("[id^=drop]").droppable({
         drop: function(event, ui) {
-          $(this).html(c.teks);
-          $(this).css('background-color', c.bg_color);
-
-          c.source.html('');
-          c.source.css('background-color', 'unset');
+          $(this).append(c.source);
+          $('div').remove('#' + c.source.id);
         }
       });
     });

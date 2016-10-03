@@ -68,7 +68,7 @@ public class BeRoom{
 				if((7 <= jam  && jam <= 17) || !strict)
 					if((getStartHour() <= jam && jam <= getEndHour()) || !strict){
 						if(jadwal.get(index).get(jam) != "")
-							jadwal.get(index).set(jam, jadwal.get(index).get(jam) + "<br/>" + alVal);
+							jadwal.get(index).set(jam, jadwal.get(index).get(jam) + "`" + alVal);
 						else
 							jadwal.get(index).set(jam, alVal);
 					}
