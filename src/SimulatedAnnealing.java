@@ -15,7 +15,7 @@ public class SimulatedAnnealing {
 	*/
 	public static void simulatedAnnealing(ScheduleBoard inputState) {
 		int currTemperature;
-		int intialTemperature = 100;
+		int intialTemperature = 10;
 		int tempReduction = 1;
 		int boltzmannConstant = 1;
 		ScheduleBoard currState = new ScheduleBoard();
@@ -31,18 +31,19 @@ public class SimulatedAnnealing {
 				stopLoop = true;
 			}
 			else {
+				int currEval = evaluate(currState);
 				succState = findSuccessor(currState);
-				evalDiff = evaluate(succState) - evaluate(currState);
+				evalDiff = evaluate(succState) - currEval;
 				if (evalDiff <= 0) {
 					currState = succState;
 				}
 				else {
 					//making random number between 0.0 ~ 1.0
 					//for comparison of probability
-					float randomProbab = randFloat(0.0f,1.1f);
-
+					float randomProbab = randFloat(0.0f,1.0f);
+				
 					//counting Acceptance Probability Function
-					double prob = Math.exp((-1)* (float) Math.abs(evaluate(currState)-evaluate(succState)) / (float) (currTemperature*boltzmannConstant));
+					double prob = Math.exp((-1)* (double) Math.abs(evalDiff) / (double) (currTemperature*boltzmannConstant));
 					
 					//comparing both probability
 					if ((float) prob>randomProbab) {
@@ -77,6 +78,7 @@ public class SimulatedAnnealing {
 		String roomName;
 
 		if (currentConflict > 0) {
+			System.out.println("konflik "+currentConflict);
 			temp_result = scheduleBoard.getMaxConflictLocation();
 			day = temp_result[0];
 			hour = temp_result[1];
