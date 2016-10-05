@@ -14,16 +14,22 @@
    <?php
     require('./interpreter.php');
 
+    // larik berisi data-data warna sel pelajaran pada tabel
     $color_data = array();
 
+    // mengembalikan nilai random 150 sampai 255 dalam format hexa
     function random_color_part() {
         return str_pad( dechex( mt_rand( 150, 255 ) ), 2, '0', STR_PAD_LEFT);
     }
 
+    // mengembalikan gabungan tiga nilai random format hexa -> sebagai kode warna
     function random_color() {
         return random_color_part() . random_color_part() . random_color_part();
     }
 
+    // mengembalikan warna yang tersedia untuk course unik,
+    // jika warna pernah di defenisikan maka warna tersebut
+    // dikembalikan
     function get_color($course_name){
       global $color_data;
       if(isset($color_data[$course_name]))
@@ -33,7 +39,25 @@
       return $color_data[$course_name];
     }
 
-    // echo random_color();
+    //
+    // menciptakan tabel baru berdasarkan data ruangan kelas
+    // dengan struktur sebagai berikut:
+    //
+    // data: {
+    //   available: [],
+    //   hour: {
+    //     start,
+    //     end
+    //   },
+    //   jadwal: [
+    //     [
+    //       mata_kuliah,
+    //       ... // length = 10 (jam 07.00 s/d 17.00)
+    //     ],
+    //     ... // length = 5 (senin s/d jumat)
+    //   ]
+    // }
+    //
     function f_create_table($data){
       $result = '';
       $result .= '<table class="course-tab table table-bordered">';
@@ -47,41 +71,60 @@
       $result .= '      <th class="thead">Jumat</th>';
       $result .= '    </tr>';
       $result .= '  </thead>';
-      $result .= '  <tbody>';
+      $result .= '  <tbody class="data-tbody">';
+
+      // Mengisi table body
       for($i = 7; $i <= 17; $i++){
-        $result .= '    <tr>';
-        $result .= '      <td class="thead" style="text-align: center; font-weight: bold;">' . ($i < 10 ? '0' : '') . $i . '.00</td>';
+
+        // open tag TR
+        $result .= '<tr>';
+
+        // open-close tag TD jam ke-$i
+        $result .= '<td class="thead" style="text-align: center; font-weight: bold;">' . ($i < 10 ? '0' : '') . $i . '.00</td>';
 
         for($j = 0; $j <= 4; $j++){
-          $room_is_avail = $data->available[$j] && ($i >= $data->hour->start) && ($i <= $data->hour->end);
+          $room_is_avail = ($data->available[$j]) && ($i >= $data->hour->start) && ($i <= $data->hour->end);
 
           $temp = '';
           $arr_matkul = explode('`', $data->jadwal[$j][$i]);
+
+          // membungkus mata kuliah (bisa lebih dari satu) dalam div setiap matkul
           for($p = 0; $p < sizeof($arr_matkul); $p++){
-            if($arr_matkul[$p] != "")
-              $temp .= '<div class="sel_matkul" id="' . 
-                ($room_is_avail ? '' : 'x') . 'sel-'. $i . '-' . $j . '" ' .
-              '" style="background-color: #' . get_color($arr_matkul[$p] . $j) . '">' . $arr_matkul[$p] . '</div>';
+            if($arr_matkul[$p] != '')
+
+              // open-close tag DIV
+              $temp .= ('<div class="sel_matkul" id="') . ($room_is_avail ? '' : 'x') . 
+                       ('sel-') . $i . ('-') . $j . ('" ') . ('" style="background-color: #') .
+                       get_color($arr_matkul[$p] . $j) . ('">') . $arr_matkul[$p] . ('</div>');
           }
 
-          $result .= '<td id="' . 'drop-'. $i . '-' . $j . '" ' . '" style="padding: 0" ' . ($room_is_avail ? '' : 'class="red"') . '>' . $temp . '</td>';
+          // open-close tag TD
+          $result .= ('<td id="') . ('drop-') . $i . ('-') . $j . ('" ') . ('" style="padding: 0" ') . 
+                     ($room_is_avail ? '' : 'class="red"') . ('>') . $temp . ('</td>');
         }
 
-        $result .= '   </tr>';
+        // close tag TR
+        $result .= '</tr>';
       }
+
       $result .= '  </tbody>';
       $result .= '</table>';
 
       return $result;
     }
 
+    // For debugging purpose
+    //
     // echo javaOutput(1, "tc/kosong");
     // exit();
 
+    // inisialisasi id algoritma (1 = Hill Climbing)
     $algo_id = 1;
+
     if(isset($_POST['algorithm_id']))
       $algo_id = $_POST['algorithm_id'];
 
+    // inisialisasi testcase algoritma (tc/kosong = testcase kosong)
     $tc_name = "tc/kosong";
     $tc_real_name = "";
     if(isset($_FILES["testcase"])){
@@ -89,14 +132,16 @@
       $tc_real_name = basename($_FILES["testcase"]["name"]);
     }
 
-    // echo basename($_POST["testcase"]["name"]);
+    // encoding java output to json
+    $output_java = json_decode(javaOutput($algo_id, $tc_name));
 
-    // echo "<div>" . $algo_id . "</div>";
-    
-    $datayy = json_decode(javaOutput($algo_id, $tc_name));
-    // var_dump($datayy);
-    $full_data = $datayy->data_tabel;
+    // For debugging purpose
+    //
+    // var_dump($output_java);
 
+    $full_data = $output_java->data_tabel;
+
+    // Navigasi Tab Tabel
     $nav_tab_html = '<ul class="nav nav-tabs">';
     $content_tab_html = '<br/><div class="tab-content">';
 
@@ -138,13 +183,13 @@
           </tr>
           <tr>
             <td style="text-align: left;">
-              conflicts: <?php echo $datayy->konflik ?>
+              conflicts: <span id="conflictn"><?php echo $output_java->konflik ?></span>
             </td>
             <td style="text-align: left;">
               &nbsp;&nbsp;&nbsp;&nbsp;
             </td>
             <td style="text-align: left;">
-              accuracy:  <?php echo $datayy->akurasi ?>%
+              accuracy:  <?php echo $output_java->akurasi ?>%
             </td>
           </tr>
         </table>
@@ -188,7 +233,25 @@
     </div>
   </div>
   <script type="text/javascript">
+    var conflict_n = 0;
     $(document).ready(function(){
+
+      function updateConflict(){
+        conflict_n = 0;
+        var arrBodyTable = $(".data-tbody");
+        console.log(arrBodyTable);
+        for(var i = 0; i < arrBodyTable.length; i++){
+          var tr = arrBodyTable[i].children;
+          for(var j = 0; j < tr.length; j++){
+            var td = tr[j].children;
+            for(var k = 0; k < td.length; k++){
+              if(td[k].children.length > 1)
+                conflict_n++;
+            }
+          }
+        }
+      }
+        
       $('#file_input_trigger').click(function(){
         $('#file_input_ya').trigger('click');
       });
@@ -225,8 +288,15 @@
         drop: function(event, ui) {
           $(this).append(c.source);
           $('div').remove('#' + c.source.id);
+          
+          setTimeout(function() {
+            updateConflict();  
+            $("#conflictn").html(conflict_n);
+          }, 100);
+          
         }
       });
+
     });
   </script>
 </body>
