@@ -31,8 +31,6 @@ public class SimulatedAnnealing {
 				stopLoop = true;
 			}
 			else {
-				ScheduleBoard tempState = new ScheduleBoard();
-				tempState = currState;
 				int currEval = evaluate(currState);
 				succState = findSuccessor(currState);
 				evalDiff = evaluate(succState) - currEval;
@@ -52,7 +50,6 @@ public class SimulatedAnnealing {
 						currState = succState; 
 					}
 					else {
-						currState = tempState;
 						stopLoop = true;
 					}
 				}
